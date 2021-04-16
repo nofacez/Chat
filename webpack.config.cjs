@@ -34,7 +34,6 @@ module.exports = {
     }),
     new HtmlWebpackPugPlugin(),
   ],
-  entry: '../src/index.jsx',
   module: {
     rules: [
       {
