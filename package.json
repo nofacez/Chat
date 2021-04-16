@@ -11,7 +11,9 @@
     "test": "echo 'no tests for this project'",
     "prebuild": "rm -rf dist",
     "build": "NODE_ENV=production npx webpack --mode production",
-    "start": "node bin/slack.js"
+    "start": "node bin/slack.js",
+    "serve": "webpack serve",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -31,6 +33,7 @@
     "fastify-sensible": "^3.1.1",
     "fastify-socket.io": "^1.0.2",
     "fastify-static": "^4.0.1",
+    "html-webpack-plugin": "^5.3.1",
     "http-errors": "^1.8.0",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
@@ -38,6 +41,8 @@
     "point-of-view": "^4.14.0",
     "popper.js": "^1.16.1",
     "pug": "^3.0.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
