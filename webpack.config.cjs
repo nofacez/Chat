@@ -34,9 +34,9 @@ module.exports = {
     }),
     new HtmlWebpackPugPlugin(),
   ],
-  // entry: {
-  //   main: './src/index.jsx',
-  // },
+  entry: {
+    main: './src/index.jsx',
+  },
   module: {
     rules: [
       {
