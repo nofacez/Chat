@@ -23,16 +23,15 @@ module.exports = {
     host: '0.0.0.0',
     publicPath: '/assets/',
     historyApiFallback: true,
-    open: true,
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new HtmlWebpackPlugin({
-      template: './server/views/index.pug',
-      filename: 'index.pug',
-      minify: false,
-    }),
-    new HtmlWebpackPugPlugin(),
+    // new HtmlWebpackPlugin({
+    //   template: './server/views/index.pug',
+    //   filename: 'index.pug',
+    //   minify: false,
+    // }),
+    // new HtmlWebpackPugPlugin(),
   ],
   module: {
     rules: [
