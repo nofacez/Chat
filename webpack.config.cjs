@@ -1,11 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 // @ts-check
 
+// @ts-ignore
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
 
+// @ts-ignore
 const mode = process.env.NODE_ENV || 'development';
 
 module.exports = {
@@ -14,6 +14,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
+    // @ts-ignore
     path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
   },
@@ -26,12 +27,6 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    // new HtmlWebpackPlugin({
-    //   template: './server/views/index.pug',
-    //   filename: 'index.pug',
-    //   minify: false,
-    // }),
-    // new HtmlWebpackPugPlugin(),
   ],
   module: {
     rules: [
