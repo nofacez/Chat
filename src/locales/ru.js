@@ -1,8 +1,9 @@
 export default {
   translation: {
     login: {
-      nickname: 'Ваш ник',
+      username: 'Ваш ник',
       password: 'Пароль',
+      enterButton: 'Войти',
     },
   },
 };

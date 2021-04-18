@@ -11,7 +11,7 @@ import NoMatch from './NoMatchRoute.jsx';
 
 const App = () => (
   <Router>
-    <div>
+    <div className="h-100 d-flex flex-column">
       <nav className="navbar navbar-light bg-light">
         <Link to="/" className="navbar-brand">Hexlet-chat</Link>
       </nav>
