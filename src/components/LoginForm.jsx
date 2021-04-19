@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 
-const Login = (props) => {
+const LoginForm = (props) => {
   // eslint-disable-next-line no-unused-vars
   const history = useHistory();
   console.log(props);
@@ -81,4 +81,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default LoginForm;

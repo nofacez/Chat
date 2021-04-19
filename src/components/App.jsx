@@ -5,7 +5,7 @@ import {
   Route,
   Link,
 } from 'react-router-dom';
-import Login from './Login.jsx';
+import LoginForm from './LoginForm.jsx';
 import Home from './Home.jsx';
 import NoMatch from './NoMatchRoute.jsx';
 
@@ -19,7 +19,7 @@ const App = () => {
         </nav>
         <Switch>
           <Route path="/login">
-            <Login />
+            <LoginForm />
           </Route>
           <Route exact path="/">
             <Home />
