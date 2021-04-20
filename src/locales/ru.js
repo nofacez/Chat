@@ -4,6 +4,7 @@ export default {
       username: 'Ваш ник',
       password: 'Пароль',
       enterButton: 'Войти',
+      wrongPassAndUsernameError: 'Неверные имя пользователя или пароль',
     },
   },
 };

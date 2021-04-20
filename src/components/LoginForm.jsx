@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-this-expression */
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Field, Form } from 'formik';
@@ -5,17 +6,16 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 
-const LoginForm = (props) => {
-  // eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line functional/no-class
+const LoginForm = () => {
   const history = useHistory();
-  console.log(props);
-  console.log(history);
   const { localStorage } = window;
   const { t } = useTranslation();
   const schema = yup.object().shape({
     username: yup.string().required(),
     password: yup.string().required(),
   });
+
   return (
     <div className="container-fluid">
       <div className="row justify-content-center pt-5">
@@ -25,20 +25,25 @@ const LoginForm = (props) => {
               username: '',
               password: '',
             }}
+            initialStatus="form-control"
             validationSchema={schema}
-            onSubmit={async (values) => {
-              console.log(values);
+            onSubmit={async (values, actions) => {
+              console.log(actions);
               try {
                 const response = await axios.post('/api/v1/login', values);
                 const { data: { token, username } } = response;
                 localStorage.setItem(username, token);
+                actions.setStatus('form-control is-valid');
                 history.push('/');
               } catch (e) {
+                actions.setStatus('form-control is-invalid');
                 console.log(e);
               }
             }}
           >
-            {({ handleChange, values, handleSubmit }) => (
+            {({
+              handleChange, values, handleSubmit, status,
+            }) => (
               <Form className="pt-2" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="username" className="form-label">
@@ -50,7 +55,7 @@ const LoginForm = (props) => {
                     autoComplete="username"
                     onChange={handleChange}
                     value={values.username}
-                    className="form-control"
+                    className={status}
                     required
                   />
                 </div>
@@ -65,9 +70,10 @@ const LoginForm = (props) => {
                     autoComplete="current-password"
                     onChange={handleChange}
                     value={values.password}
-                    className="form-control"
+                    className={status}
                     required
                   />
+                  {status.includes('is-invalid') && <div className="invalid-feedback">{ t('login.wrongPassAndUsernameError') }</div>}
                 </div>
                 <button className="btn btn-outline-primary btn-block" type="submit">
                   { t('login.enterButton') }
