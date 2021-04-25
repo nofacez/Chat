@@ -3,22 +3,25 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Field, Form } from 'formik';
 import { useHistory } from 'react-router-dom';
+// import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import * as yup from 'yup';
+// import cn from 'classnames';
 import { useUser } from './UserContext.jsx';
+// import { setInitialState } from '../chat/channelsSlice.js';
+import routes from '../../routes.js';
 
 // eslint-disable-next-line functional/no-class
 const LoginForm = () => {
+  // const dispatch = useDispatch();
   const history = useHistory();
   const { localStorage } = window;
-  console.log('1', localStorage);
   const { t } = useTranslation();
   const schema = yup.object().shape({
     username: yup.string().required(),
     password: yup.string().required(),
   });
-  const { user, logIn } = useUser();
-  console.log('before', user);
+  const { logIn } = useUser();
   return (
     <div className="container-fluid">
       <div className="row justify-content-center pt-5">
@@ -32,16 +35,12 @@ const LoginForm = () => {
             validationSchema={schema}
             onSubmit={async (values, actions) => {
               try {
-                const response = await axios.post('/api/v1/login', values);
-                const { data: { username, token } } = response;
-                console.log(response.data);
+                const { data: { username, token } } = await axios.post(routes.loginPath(), values);
                 localStorage.setItem('user', JSON.stringify({ username, token }));
                 logIn(username);
                 actions.setStatus('form-control is-valid');
                 history.push('/');
-                console.log('after', user);
               } catch (e) {
-                console.log('after', user);
                 actions.setStatus('form-control is-invalid');
                 console.log(e);
               }
