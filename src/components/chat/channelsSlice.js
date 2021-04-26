@@ -17,7 +17,10 @@ export const setInitialState = createAsyncThunk(
 
 export const channelsSlice = createSlice({
   name: 'channelsInfo',
-  initialState: {},
+  initialState: {
+    channels: [],
+    currentChannelId: null,
+  },
   extraReducers: {
     [setInitialState.fulfilled]: (state, action) => {
       const { channels, currentChannelId } = action.payload;
