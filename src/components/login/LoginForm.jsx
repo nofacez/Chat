@@ -3,12 +3,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Formik, Field, Form } from 'formik';
 import { useHistory } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import * as yup from 'yup';
-// import cn from 'classnames';
 import { useUser } from './UserContext.jsx';
-// import { setInitialState } from '../chat/channelsSlice.js';
 import routes from '../../routes.js';
 
 // eslint-disable-next-line functional/no-class
