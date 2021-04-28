@@ -12,6 +12,7 @@ import Home from './chat/Home.jsx';
 import Navbar from './Navbar.jsx';
 import NoMatch from './NoMatchRoute.jsx';
 import { useUser } from './login/UserContext.jsx';
+import AddChannelModal from './modals/AddChannelModal.jsx';
 
 const App = () => {
   const { user } = useUser();
@@ -32,6 +33,7 @@ const App = () => {
           </Route>
         </Switch>
       </div>
+      <AddChannelModal />
     </Router>
   );
 };
