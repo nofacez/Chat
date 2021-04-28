@@ -1,17 +1,25 @@
 export default {
   translation: {
-    navbar: {
-      title: 'Hexlet Chat',
+    buttons: {
+      cancel: 'Отменить',
+      send: 'Отправить',
+      login: 'Войти',
+      delete: 'Удалить',
+      rename: 'Переименовать',
     },
-    login: {
-      username: 'Ваш ник',
-      password: 'Пароль',
-      enterButton: 'Войти',
-      wrongPassAndUsernameError: 'Неверные имя пользователя или пароль',
+    errors: {
+      loginFalied: 'Неверные имя пользователя или пароль',
+      required: 'Обазятельное поле',
+      length: 'От 3 до 20 символов',
     },
-    chat: {
+    titles: {
       channels: 'Каналы',
-      sendMsgBtn: 'Отправить',
+      addChannel: 'Добавить каналы',
+      login: {
+        username: 'Ваш ник',
+        password: 'Пароль',
+      },
+      nav: 'Hexlet Chat',
     },
   },
 };
