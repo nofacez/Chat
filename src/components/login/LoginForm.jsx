@@ -31,6 +31,7 @@ const LoginForm = () => {
             initialStatus="form-control"
             validationSchema={schema}
             onSubmit={async (values, actions) => {
+              console.log(values);
               try {
                 const { data: { username, token } } = await axios.post(routes.loginPath(), values);
                 localStorage.setItem('user', JSON.stringify({ username, token }));
@@ -49,7 +50,7 @@ const LoginForm = () => {
               <Form className="pt-2" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="username" className="form-label">
-                    { t('login.username') }
+                    { t('titles.login.username') }
                   </label>
                   <Field
                     id="username"
@@ -63,7 +64,7 @@ const LoginForm = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="password" className="form-label">
-                    { t('login.password') }
+                    { t('titles.login.password') }
                   </label>
                   <Field
                     type="password"
@@ -75,10 +76,10 @@ const LoginForm = () => {
                     className={status}
                     required
                   />
-                  {status.includes('is-invalid') && <div className="invalid-feedback">{ t('login.wrongPassAndUsernameError') }</div>}
+                  {status.includes('is-invalid') && <div className="invalid-feedback">{ t('errors.loginFalied') }</div>}
                 </div>
                 <button className="btn btn-outline-primary btn-block" type="submit">
-                  { t('login.enterButton') }
+                  { t('buttons.login') }
                 </button>
               </Form>
             )}
