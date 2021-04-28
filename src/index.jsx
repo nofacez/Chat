@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import App from './components/App.jsx';
 import { UserProvider } from './components/login/UserContext.jsx';
 import './i18n';
-import store from './components/app/store';
+import store from './app/store.js';
 import '../assets/application.scss';
 
 // @ts-ignore
