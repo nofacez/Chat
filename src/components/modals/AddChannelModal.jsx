@@ -1,0 +1,92 @@
+import React from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { Formik } from 'formik';
+import { io } from 'socket.io-client';
+import * as yup from 'yup';
+import { closeModal } from '../../slices/modalSlice.js';
+
+const AddChannel = () => {
+  const socket = io('http://localhost:5000');
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { open, currentModal } = useSelector((state) => state.modal);
+
+  const schema = yup.object().shape({
+    name: yup.string()
+      .required(t('errors.required'))
+      .min(3, t('errors.length'))
+      .max(20, t('errors.length')),
+  });
+
+  const handleCloseModal = () => () => {
+    dispatch(closeModal());
+  };
+
+  const submitName = (name) => {
+    socket.emit('newChannel', name, (resp) => console.log(resp));
+  };
+
+  return (
+    <Modal
+      show={open && currentModal === 'addChannel'}
+      onHide={handleCloseModal()}
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>
+          { t('titles.addChannel') }
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Formik
+          validationSchema={schema}
+          validateOnChange={false}
+          initialValues={{
+            name: '',
+          }}
+          onSubmit={(values) => {
+            submitName(values);
+            dispatch(closeModal());
+          }}
+        >
+          {({
+            handleChange,
+            handleSubmit,
+            values,
+            errors,
+          }) => {
+            console.log('errr', errors);
+            return (
+              <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                  <Form.Control
+                    name="name"
+                    aria-label="add channel"
+                    className={`mb-2 form-control ${errors.name && 'is-invalid'}`}
+                    value={values.name}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    { errors.name }
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <div className="d-flex justify-content-end">
+                  <Button variant="secondary" className="mr-2" onClick={handleCloseModal()}>
+                    { t('buttons.cancel') }
+                  </Button>
+                  <Button type="submit" variant="primary">
+                    { t('buttons.send') }
+                  </Button>
+                </div>
+              </Form>
+            );
+          }}
+        </Formik>
+      </Modal.Body>
+    </Modal>
+  );
+};
+
+export default AddChannel;
