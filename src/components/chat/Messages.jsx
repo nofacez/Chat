@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { uniqueId } from 'lodash';
+import {
+  InputGroup, FormControl, Button, Form,
+} from 'react-bootstrap';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 
 const Messages = ({
   messages, currentChannelId, socket, user,
 }) => {
   const { t } = useTranslation();
-  const [value, setValue] = useState('');
-  const handleInputChange = (e) => {
-    e.preventDefault();
-    setValue(e.target.value);
-  };
-  const handleSubmitMsg = (e) => {
-    e.preventDefault();
+  const schema = yup.object().shape({
+    body: yup.string().required(t('errors.emptyMessage')),
+  });
+
+  const handleSubmitMsg = (text) => {
     try {
-      socket.emit('newMessage', { username: user.username, body: value, channelId: currentChannelId }, (data) => console.log(data.status));
-      setValue('');
+      socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
     } catch (err) {
       console.log('error', err);
     }
@@ -35,14 +37,42 @@ const Messages = ({
             ))}
         </div>
         <div className="mt-auto">
-          <form novlidate="true" onSubmit={handleSubmitMsg}>
-            <div className="input-group mb-3">
-              <input name="body" type="text" className="form-control" aria-label="body" value={value} onChange={handleInputChange} />
-              <div className="input-group-append">
-                <button className="btn btn-primary" type="submit">{ t('buttons.send') }</button>
-              </div>
-            </div>
-          </form>
+          <Formik
+            initialValues={{
+              body: '',
+            }}
+            validateOnChange={false}
+            validationSchema={schema}
+            onSubmit={async (values, actions) => {
+              console.log(values);
+              handleSubmitMsg(values.body);
+              actions.resetForm();
+            }}
+          >
+            {({
+              values, handleChange, handleSubmit, errors, isValid,
+            }) => (
+              <Form onSubmit={handleSubmit} noValidate>
+                <InputGroup className="mb-3" hasValidation={!isValid}>
+                  <FormControl
+                    aria-label="body"
+                    name="body"
+                    value={values.body}
+                    className={!isValid && 'is-invalid'}
+                    onChange={handleChange}
+                    autoFocus
+                  />
+                  <InputGroup.Append>
+                    <Button type="submit" variant="primary">{ t('buttons.send') }</Button>
+                  </InputGroup.Append>
+                  <Form.Control.Feedback type="invalid">
+                    { errors.body }
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form>
+            )}
+
+          </Formik>
         </div>
       </div>
     </div>
