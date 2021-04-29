@@ -11,6 +11,7 @@ export default {
       loginFalied: 'Неверные имя пользователя или пароль',
       required: 'Обазятельное поле',
       length: 'От 3 до 20 символов',
+      emptyMessage: 'Введите сообщение',
     },
     titles: {
       channels: 'Каналы',
@@ -19,7 +20,7 @@ export default {
         username: 'Ваш ник',
         password: 'Пароль',
       },
-      nav: 'Hexlet Chat',
+      nav: 'Hexlet-Chat',
     },
   },
 };
