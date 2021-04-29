@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import { setInitialState, addChannel } from '../../slices/channelsSlice.js';
+import { setInitialState, addChannel, setCurrentChannel } from '../../slices/channelsSlice.js';
 import { addMessage } from '../../slices/messagesSlice.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
@@ -23,7 +23,10 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
+    socket.on('newChannel', (channel) => {
+      dispatch(addChannel(channel));
+      dispatch(setCurrentChannel(channel));
+    });
   }, []);
 
   return (
