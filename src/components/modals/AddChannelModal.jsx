@@ -3,6 +3,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Formik } from 'formik';
+import cn from 'classnames';
 import { io } from 'socket.io-client';
 import * as yup from 'yup';
 import { closeModal } from '../../slices/modalSlice.js';
@@ -24,7 +25,7 @@ const AddChannel = () => {
     dispatch(closeModal());
   };
 
-  const submitName = (name) => {
+  const submitNewChannel = (name) => {
     socket.emit('newChannel', name, (resp) => console.log(resp));
   };
 
@@ -47,7 +48,7 @@ const AddChannel = () => {
             name: '',
           }}
           onSubmit={(values) => {
-            submitName(values);
+            submitNewChannel(values);
             dispatch(closeModal());
           }}
         >
@@ -56,17 +57,23 @@ const AddChannel = () => {
             handleSubmit,
             values,
             errors,
+            isValid,
           }) => {
             console.log('errr', errors);
+            const inputClasses = cn(
+              'mb-2',
+              { 'is-invalid': !isValid },
+            );
             return (
               <Form onSubmit={handleSubmit}>
                 <Form.Group>
                   <Form.Control
                     name="name"
                     aria-label="add channel"
-                    className={`mb-2 form-control ${errors.name && 'is-invalid'}`}
+                    className={inputClasses}
                     value={values.name}
                     onChange={handleChange}
+                    autoFocus
                   />
                   <Form.Control.Feedback type="invalid">
                     { errors.name }
