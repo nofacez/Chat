@@ -7,18 +7,22 @@ import cn from 'classnames';
 import { io } from 'socket.io-client';
 import * as yup from 'yup';
 import { closeModal } from '../../slices/modalSlice.js';
+import { setCurrentChannel } from '../../slices/channelsSlice.js';
 
 const AddChannel = () => {
   const socket = io('http://localhost:5000');
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { channels } = useSelector((state) => state.channelsInfo);
   const { open, currentModal } = useSelector((state) => state.modal);
+  const channelsNames = channels.map(({ name }) => name);
 
   const schema = yup.object().shape({
     name: yup.string()
       .required(t('errors.required'))
       .min(3, t('errors.length'))
-      .max(20, t('errors.length')),
+      .max(20, t('errors.length'))
+      .notOneOf(channelsNames, t('errors.unique')),
   });
 
   const handleCloseModal = () => () => {
@@ -26,7 +30,10 @@ const AddChannel = () => {
   };
 
   const submitNewChannel = (name) => {
-    socket.emit('newChannel', name, (resp) => console.log(resp));
+    socket.emit('newChannel', name, ({ status, data }) => {
+      dispatch(setCurrentChannel(data));
+      console.log(status);
+    });
   };
 
   return (
@@ -58,6 +65,7 @@ const AddChannel = () => {
             values,
             errors,
             isValid,
+            isSubmitting,
           }) => {
             console.log('errr', errors);
             const inputClasses = cn(
@@ -83,7 +91,7 @@ const AddChannel = () => {
                   <Button variant="secondary" className="mr-2" onClick={handleCloseModal()}>
                     { t('buttons.cancel') }
                   </Button>
-                  <Button type="submit" variant="primary">
+                  <Button type="submit" variant="primary" disabled={isSubmitting}>
                     { t('buttons.send') }
                   </Button>
                 </div>
