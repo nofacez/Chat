@@ -52,7 +52,7 @@ const Messages = ({
             {({
               values, handleChange, handleSubmit, errors, isValid,
             }) => (
-              <Form onSubmit={handleSubmit} noValidate>
+              <Form onSubmit={handleSubmit} noValidate autoFocus>
                 <InputGroup className="mb-3" hasValidation={!isValid}>
                   <FormControl
                     aria-label="body"
