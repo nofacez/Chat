@@ -12,10 +12,12 @@ export default {
       required: 'Обазятельное поле',
       length: 'От 3 до 20 символов',
       emptyMessage: 'Введите сообщение',
+      unique: 'Должно быть уникальным',
     },
     titles: {
       channels: 'Каналы',
-      addChannel: 'Добавить каналы',
+      addChannel: 'Добавить канал',
+      removeChannel: 'Удалить канал',
       login: {
         username: 'Ваш ник',
         password: 'Пароль',
