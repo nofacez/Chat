@@ -18,6 +18,7 @@ export default {
       channels: 'Каналы',
       addChannel: 'Добавить канал',
       removeChannel: 'Удалить канал',
+      sure: 'Уверены?',
       login: {
         username: 'Ваш ник',
         password: 'Пароль',
