@@ -13,8 +13,8 @@ const Channels = ({ channels, currentChannelId }) => {
   const handleChangeChannel = (id) => () => {
     dispatch(setCurrentChannel({ id }));
   };
-  const handleOpenModal = (type) => () => {
-    dispatch(openModal({ type }));
+  const handleOpenModal = (type, id = null) => () => {
+    dispatch(openModal({ type, extra: { channelId: id } }));
   };
   return (
     <div className="col-3 border-right">
@@ -38,7 +38,7 @@ const Channels = ({ channels, currentChannelId }) => {
                   <Dropdown.Toggle split variant={id === currentChannelId ? 'primary' : 'light'} id="dropdown-split-basic" className="flex-grow-0" />
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="">{t('buttons.delete')}</Dropdown.Item>
+                    <Dropdown.Item href="" onClick={handleOpenModal('removeChannel', id)}>{t('buttons.delete')}</Dropdown.Item>
                     <Dropdown.Item href="">{t('buttons.rename')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>

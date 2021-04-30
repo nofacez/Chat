@@ -1,8 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
-import { setInitialState, addChannel, setCurrentChannel } from '../../slices/channelsSlice.js';
+import axios from 'axios';
+import {
+  setInitialState, addChannel, removeChannel,
+} from '../../slices/channelsSlice.js';
 import { addMessage } from '../../slices/messagesSlice.js';
+
+import routes from '../../routes.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 
@@ -13,9 +18,20 @@ const Home = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
+  console.log(window.location.href);
 
-  useEffect(() => {
-    dispatch(setInitialState(user.token));
+  const getInitialState = async () => {
+    const response = await axios.get(routes.dataPath(), {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    return response.data;
+  };
+
+  useEffect(async () => {
+    const data = await getInitialState();
+    dispatch(setInitialState(data));
   }, [dispatch]);
 
   useEffect(() => {
@@ -23,14 +39,17 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    socket.on('newChannel', (channel) => {
-      dispatch(addChannel(channel));
-      dispatch(setCurrentChannel(channel));
+    socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
+  }, []);
+
+  useEffect(() => {
+    socket.on('removeChannel', (channel) => {
+      dispatch(removeChannel(channel));
     });
   }, []);
 
   return (
-    <div className="row pb-5 flex-grow-1 pb-3">
+    <div className="row pb-5 flex-grow-1 h-75 pb-3">
       <Channels channels={channels} currentChannelId={currentChannelId} />
       <Messages
         messages={messages}

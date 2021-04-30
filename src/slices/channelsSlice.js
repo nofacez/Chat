@@ -1,19 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import routes from '../routes.js';
-
-export const setInitialState = createAsyncThunk(
-  'channelsInfo/setInitialState',
-  async (token) => {
-    const { data } = await axios.get(routes.dataPath(), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    console.log('async', data);
-    return data;
-  },
-);
+import { createSlice } from '@reduxjs/toolkit';
 
 export const channelsSlice = createSlice({
   name: 'channelsInfo',
@@ -22,6 +7,10 @@ export const channelsSlice = createSlice({
     currentChannelId: null,
   },
   reducers: {
+    setInitialState: (state, action) => {
+      const { channels, currentChannelId } = action.payload;
+      return { channels, currentChannelId };
+    },
     setCurrentChannel: (state, action) => {
       const { id } = action.payload;
       return { ...state, currentChannelId: id };
@@ -30,14 +19,17 @@ export const channelsSlice = createSlice({
       const newChannels = [...state.channels, action.payload];
       return { ...state, channels: newChannels };
     },
-  },
-  extraReducers: {
-    [setInitialState.fulfilled]: (state, action) => {
-      const { channels, currentChannelId } = action.payload;
-      return { channels, currentChannelId };
+    removeChannel: (state, action) => {
+      const { id } = action.payload;
+      const { channels, currentChannelId } = state;
+      const filteredChannels = channels.filter((channel) => channel.id !== id);
+      const newCurrentChannelId = currentChannelId === id ? 1 : currentChannelId;
+      return { channels: filteredChannels, currentChannelId: newCurrentChannelId };
     },
   },
 });
 
-export const { setCurrentChannel, addChannel } = channelsSlice.actions;
+export const {
+  setCurrentChannel, addChannel, removeChannel, setInitialState,
+} = channelsSlice.actions;
 export default channelsSlice.reducer;

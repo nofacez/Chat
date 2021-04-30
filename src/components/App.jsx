@@ -13,6 +13,7 @@ import Navbar from './Navbar.jsx';
 import NoMatch from './NoMatchRoute.jsx';
 import { useUser } from './login/UserContext.jsx';
 import AddChannelModal from './modals/AddChannelModal.jsx';
+import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
 
 const App = () => {
   const { user } = useUser();
@@ -34,6 +35,7 @@ const App = () => {
         </Switch>
       </div>
       <AddChannelModal />
+      <RemoveChannelModal />
     </Router>
   );
 };
