@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import axios from 'axios';
 import {
-  setInitialState, addChannel, removeChannel,
-} from '../../slices/channelsSlice.js';
-import { addMessage } from '../../slices/messagesSlice.js';
+  setInitialState, addChannel, removeChannel, renameChannel,
+} from '../slices/channelsSlice.js';
+import { addMessage } from '../slices/messagesSlice.js';
 
-import routes from '../../routes.js';
-import Channels from './Channels.jsx';
-import Messages from './Messages.jsx';
+import routes from '../routes.js';
+import Channels from './chat/Channels.jsx';
+import Messages from './chat/Messages.jsx';
 
 const Home = () => {
   const socket = io('http://localhost:5000');
@@ -45,6 +45,12 @@ const Home = () => {
   useEffect(() => {
     socket.on('removeChannel', (channel) => {
       dispatch(removeChannel(channel));
+    });
+  }, []);
+
+  useEffect(() => {
+    socket.on('renameChannel', (channel) => {
+      dispatch(renameChannel(channel));
     });
   }, []);
 

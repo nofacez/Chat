@@ -7,13 +7,14 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import LoginForm from './login/LoginForm.jsx';
-import Home from './chat/Home.jsx';
+import Login from './Login.jsx';
+import Home from './Home.jsx';
 import Navbar from './Navbar.jsx';
 import NoMatch from './NoMatchRoute.jsx';
-import { useUser } from './login/UserContext.jsx';
+import { useUser } from './context/UserContext.jsx';
 import AddChannelModal from './modals/AddChannelModal.jsx';
 import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
+import RenameChannelModal from './modals/RenameChannelModal.jsx';
 
 const App = () => {
   const { user } = useUser();
@@ -27,7 +28,7 @@ const App = () => {
             { user ? <Home /> : <Redirect to="/login" /> }
           </Route>
           <Route path="/login">
-            <LoginForm />
+            <Login />
           </Route>
           <Route>
             <NoMatch />
@@ -36,6 +37,7 @@ const App = () => {
       </div>
       <AddChannelModal />
       <RemoveChannelModal />
+      <RenameChannelModal />
     </Router>
   );
 };

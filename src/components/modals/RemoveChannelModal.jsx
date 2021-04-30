@@ -16,7 +16,7 @@ const RemoveChannelModal = () => {
   };
 
   const removeChannel = () => {
-    socket.emit('removeChannel', { id: extra.channelId }, (resp) => console.log(resp));
+    socket.emit('removeChannel', extra, (resp) => console.log(resp));
   };
 
   return (
@@ -29,7 +29,7 @@ const RemoveChannelModal = () => {
         <Modal.Title>{ t('titles.removeChannel') }</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        Уверены?
+        { t('titles.sure') }
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
         <Button variant="secondary" onClick={handleCloseModal()}>
