@@ -14,6 +14,7 @@ import { useUser } from './context/UserContext.jsx';
 
 const Home = () => {
   const url = window.location.href;
+  console.log(url);
   const socket = io(url);
   const dispatch = useDispatch();
   const { localStorage } = window;
