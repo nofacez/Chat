@@ -10,10 +10,12 @@ export const UserProvider = ({ children }) => {
   const username = userData ? userData.username : null;
   const [user, setUser] = useState(username);
   const logIn = (name) => setUser(name);
+  const logOut = () => setUser(null);
   return (
     <UserContext.Provider value={{
       user,
       logIn,
+      logOut,
     }}
     >
       { children }

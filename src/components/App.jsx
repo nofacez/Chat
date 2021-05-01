@@ -11,6 +11,7 @@ import Login from './Login.jsx';
 import Home from './Home.jsx';
 import Navbar from './Navbar.jsx';
 import NoMatch from './NoMatchRoute.jsx';
+import Signup from './SignUp.jsx';
 import { useUser } from './context/UserContext.jsx';
 import AddChannelModal from './modals/AddChannelModal.jsx';
 import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
@@ -18,7 +19,6 @@ import RenameChannelModal from './modals/RenameChannelModal.jsx';
 
 const App = () => {
   const { user } = useUser();
-  console.log(user);
   return (
     <Router>
       <div className="h-100 d-flex flex-column">
@@ -29,6 +29,9 @@ const App = () => {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
           </Route>
           <Route>
             <NoMatch />
