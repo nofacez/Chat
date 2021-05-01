@@ -28,7 +28,7 @@ const LoginForm = ({ history, storage, t }) => {
           history.push('/');
         } catch (e) {
           actions.setStatus('form-control is-invalid');
-          console.error(e);
+          console.log('er', e);
         }
       }}
     >
