@@ -10,20 +10,24 @@ import { addMessage } from '../slices/messagesSlice.js';
 import routes from '../routes.js';
 import Channels from './chat/Channels.jsx';
 import Messages from './chat/Messages.jsx';
+import { useUser } from './context/UserContext.jsx';
 
 const Home = () => {
-  const socket = io('http://localhost:5000');
+  const url = window.location.href;
+  const socket = io(url);
   const dispatch = useDispatch();
   const { localStorage } = window;
-  const user = JSON.parse(localStorage.getItem('user'));
+  const { token } = JSON.parse(localStorage.getItem('user'));
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
-  console.log(window.location.href);
+
+  const { user } = useUser();
+  console.log(useUser());
 
   const getInitialState = async () => {
     const response = await axios.get(routes.dataPath(), {
       headers: {
-        Authorization: `Bearer ${user.token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
@@ -32,7 +36,7 @@ const Home = () => {
   useEffect(async () => {
     const data = await getInitialState();
     dispatch(setInitialState(data));
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     socket.on('newMessage', (message) => dispatch(addMessage(message)));

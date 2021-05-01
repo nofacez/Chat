@@ -16,11 +16,7 @@ const Messages = ({
   });
 
   const handleSubmitMsg = (text) => {
-    try {
-      socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
-    } catch (err) {
-      console.log('error', err);
-    }
+    socket.emit('newMessage', { username: user, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
   };
   return (
     <div className="col h-100">
@@ -44,7 +40,6 @@ const Messages = ({
             validateOnChange={false}
             validationSchema={schema}
             onSubmit={async (values, actions) => {
-              console.log(values);
               handleSubmitMsg(values.body);
               actions.resetForm();
             }}
