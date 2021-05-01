@@ -20,7 +20,6 @@ const LoginForm = ({ history, storage, t }) => {
       initialStatus="form-control"
       validationSchema={schema}
       onSubmit={async (values, actions) => {
-        console.log(values);
         try {
           const { data: { username, token } } = await axios.post(routes.loginPath(), values);
           storage.setItem('user', JSON.stringify({ username, token }));
@@ -29,7 +28,7 @@ const LoginForm = ({ history, storage, t }) => {
           history.push('/');
         } catch (e) {
           actions.setStatus('form-control is-invalid');
-          console.log(e);
+          console.error(e);
         }
       }}
     >
@@ -67,9 +66,13 @@ const LoginForm = ({ history, storage, t }) => {
             />
             {status.includes('is-invalid') && <div className="invalid-feedback">{ t('errors.loginFalied') }</div>}
           </div>
-          <button className="btn btn-outline-primary btn-block" type="submit">
+          <button className="btn btn-outline-primary btn-block mb-3" type="submit">
             { t('buttons.login') }
           </button>
+          <div className="d-flex flex-column align-items-center">
+            <span className="mb-2 small">{ t('titles.login.newUser') }</span>
+            <a href="/signup">{ t('buttons.loginSignup') }</a>
+          </div>
         </Form>
       )}
     </Formik>
