@@ -7,7 +7,8 @@ import { closeModal } from '../../slices/modalSlice.js';
 import AddChannelForm from '../forms/AddChannelForm.jsx';
 
 const AddChannel = () => {
-  const socket = io('http://localhost:5000');
+  const url = window.location.href;
+  const socket = io(url, { transport: ['websocket'] });
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { open, currentModal } = useSelector((state) => state.modal);

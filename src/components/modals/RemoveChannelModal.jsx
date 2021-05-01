@@ -6,7 +6,8 @@ import { io } from 'socket.io-client';
 import { closeModal } from '../../slices/modalSlice.js';
 
 const RemoveChannelModal = () => {
-  const socket = io('http://localhost:5000');
+  const url = window.location.href;
+  const socket = io(url, { transport: ['websocket'] });
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { open, currentModal, extra } = useSelector((state) => state.modal);

@@ -15,7 +15,7 @@ import { useUser } from './context/UserContext.jsx';
 const Home = () => {
   const url = window.location.href;
   console.log(url);
-  const socket = io('https://slack-frontend-project.herokuapp.com/', { transport: ['websocket'] });
+  const socket = io(url, { transport: ['websocket'] });
   const dispatch = useDispatch();
   const { localStorage } = window;
   const { token } = JSON.parse(localStorage.getItem('user'));
