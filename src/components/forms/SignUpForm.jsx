@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useUser } from '../context/UserContext.jsx';
 import routes from '../../routes.js';
 
-const SignUpForm = ({ history, storage, t }) => {
+const SignUpForm = ({ history, t }) => {
   const schema = yup.object().shape({
     username: yup.string().required(t('errors.required')).min(3, t('errors.length')).max(20, t('errors.length')),
     password: yup.string().required(t('errors.required')).min(6, t('errors.passwordLength')),
@@ -30,8 +30,7 @@ const SignUpForm = ({ history, storage, t }) => {
         try {
           const { username, password } = values;
           const { data } = await axios.post(routes.signupPath(), { username, password });
-          storage.setItem('user', JSON.stringify({ username: data.username, token: data.token }));
-          logIn(username);
+          logIn({ username: data.username, token: data.token });
           history.push('/');
         } catch (e) {
           if (e.response.status === 409) {
