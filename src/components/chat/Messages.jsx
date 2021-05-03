@@ -6,17 +6,18 @@ import {
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import SocketContext from '../context/SocketContext';
 
 const Messages = ({
-  messages, currentChannelId, socket, user,
+  messages, currentChannelId, user,
 }) => {
   const { t } = useTranslation();
   const schema = yup.object().shape({
     body: yup.string().required(t('errors.emptyMessage')),
   });
-
+  const socket = React.useContext(SocketContext);
   const handleSubmitMsg = (text) => {
-    socket.emit('newMessage', { username: user, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
+    socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
   };
   return (
     <div className="col h-100">

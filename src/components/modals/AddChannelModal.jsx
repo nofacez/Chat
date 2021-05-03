@@ -2,17 +2,15 @@ import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { io } from 'socket.io-client';
 import { closeModal } from '../../slices/modalSlice.js';
 import AddChannelForm from '../forms/AddChannelForm.jsx';
+import SocketContext from '../context/SocketContext.js';
 
 const AddChannel = () => {
-  const url = window.location.href;
-  const socket = io(url, { transport: ['websocket'] });
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { open, currentModal } = useSelector((state) => state.modal);
-
+  const socket = React.useContext(SocketContext);
   const handleCloseModal = () => () => {
     dispatch(closeModal());
   };

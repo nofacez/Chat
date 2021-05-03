@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { io } from 'socket.io-client';
 import axios from 'axios';
 import {
   setInitialState, addChannel, removeChannel, renameChannel,
@@ -11,17 +10,15 @@ import routes from '../routes.js';
 import Channels from './chat/Channels.jsx';
 import Messages from './chat/Messages.jsx';
 import { useUser } from './context/UserContext.jsx';
+import SocketContext from './context/SocketContext.js';
 
 const Home = () => {
-  const url = window.location.href;
-  console.log(url);
-  const socket = io(url, { transport: ['websocket'] });
   const dispatch = useDispatch();
   const { localStorage } = window;
   const { token } = JSON.parse(localStorage.getItem('user'));
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
-
+  const socket = React.useContext(SocketContext);
   const { user } = useUser();
   console.log(useUser());
 
@@ -37,26 +34,24 @@ const Home = () => {
   useEffect(async () => {
     const data = await getInitialState();
     dispatch(setInitialState(data));
-  }, []);
+  }, [dispatch]);
+
+  // const getMessage = () => socket.on('newMessage', (message) => dispatch(addMessage(message)));
 
   useEffect(() => {
     socket.on('newMessage', (message) => dispatch(addMessage(message)));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
   }, []);
 
   useEffect(() => {
-    socket.on('removeChannel', (channel) => {
-      dispatch(removeChannel(channel));
-    });
+    socket.on('removeChannel', (channel) => dispatch(removeChannel(channel)));
   }, []);
 
   useEffect(() => {
-    socket.on('renameChannel', (channel) => {
-      dispatch(renameChannel(channel));
-    });
+    socket.on('renameChannel', (channel) => dispatch(renameChannel(channel)));
   }, []);
 
   return (

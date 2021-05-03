@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { useUser } from '../context/UserContext.jsx';
 import routes from '../../routes.js';
 
-const LoginForm = ({ history, storage, t }) => {
+const LoginForm = ({ history, t }) => {
   const schema = yup.object().shape({
     username: yup.string().required(),
     password: yup.string().required(),
@@ -21,9 +21,8 @@ const LoginForm = ({ history, storage, t }) => {
       validationSchema={schema}
       onSubmit={async (values, actions) => {
         try {
-          const { data: { username, token } } = await axios.post(routes.loginPath(), values);
-          storage.setItem('user', JSON.stringify({ username, token }));
-          logIn(username);
+          const { data } = await axios.post(routes.loginPath(), values);
+          logIn(data);
           actions.setStatus('form-control is-valid');
           history.push('/');
         } catch (e) {
