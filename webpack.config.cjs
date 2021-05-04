@@ -4,6 +4,8 @@
 // @ts-ignore
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPugPlugin = require('html-webpack-pug-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // @ts-ignore
 const mode = process.env.NODE_ENV || 'development';
@@ -27,6 +29,12 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'server/views/index.pug',
+      filename: 'index.pug',
+      minify: false,
+    }),
+    new HtmlWebpackPugPlugin(),
   ],
   module: {
     rules: [
