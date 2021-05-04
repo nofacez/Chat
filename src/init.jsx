@@ -13,10 +13,9 @@ import SocketContext, { socket } from './components/context/SocketContext.js';
 import RollbarContext, { rollbar } from './components/context/RollbarContext.js';
 
 // @ts-ignore
-if (process.env.NODE_ENV !== 'production') {
-  localStorage.debug = 'chat:*';
-}
 export default () => {
+  const container = document.querySelector('#chat');
+  console.log(container);
   render(
     <Provider store={store}>
       <RollbarContext.Provider value={rollbar}>
@@ -26,6 +25,7 @@ export default () => {
           </UserProvider>
         </SocketContext.Provider>
       </RollbarContext.Provider>
-    </Provider>, document.getElementById('chat'),
+    </Provider>,
+    container,
   );
 };

@@ -57,6 +57,7 @@ const Messages = ({
                     className={!isValid && 'is-invalid'}
                     onChange={handleChange}
                     autoFocus
+                    data-testid="new-message"
                   />
                   <InputGroup.Append>
                     <Button type="submit" variant="primary">{ t('buttons.send') }</Button>

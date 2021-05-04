@@ -67,6 +67,7 @@ const RenameForm = ({ socket, t, dispatch }) => {
                 value={values.name}
                 onChange={handleChange}
                 autoFocus
+                data-testid="rename-channel"
               />
               <Form.Control.Feedback type="invalid">
                 { errors.name }
