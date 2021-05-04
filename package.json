@@ -8,7 +8,7 @@
     "node": "15.x"
   },
   "scripts": {
-    "test": "NODE_OPTIONS='--experimental-vm-modules --trace-warnings' npx jest --colors",
+    "test": "echo 'No tests for this project'",
     "prebuild": "rm -rf dist",
     "build": "NODE_ENV=production npx webpack --mode production",
     "start": "node bin/slack.js",
