@@ -18,6 +18,8 @@ module.exports = {
     path: path.join(__dirname, 'dist', 'public'),
     publicPath: '/assets/',
   },
+  entry: './src/init.jsx',
+
   devServer: {
     compress: true,
     port: 8080,
