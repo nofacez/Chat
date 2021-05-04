@@ -10,8 +10,8 @@
   "scripts": {
     "test": "NODE_OPTIONS='--experimental-vm-modules --trace-warnings' npx jest --colors",
     "prebuild": "rm -rf dist",
-    "build": "NODE_ENV=production npx webpack --mode production",
-    "start": "node bin/slack.js",
+    "build": "NODE_OPTIONS=--experimental-vm-modules NODE_ENV=production npx webpack --mode production",
+    "start": "NODE_OPTIONS=--experimental-vm-modules node bin/slack.js",
     "serve": "webpack serve",
     "watch": "webpack --watch"
   },
