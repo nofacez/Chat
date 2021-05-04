@@ -1,9 +1,11 @@
 import React from 'react';
-import { Formik, Field, Form } from 'formik';
+import { Formik } from 'formik';
+import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useUser } from '../context/UserContext.jsx';
 import routes from '../../routes.js';
+import RollbarContext from '../context/RollbarContext.js';
 
 const LoginForm = ({ history, t }) => {
   const schema = yup.object().shape({
@@ -11,6 +13,7 @@ const LoginForm = ({ history, t }) => {
     password: yup.string().required(),
   });
   const { logIn } = useUser();
+  const rollbar = React.useContext(RollbarContext);
   return (
     <Formik
       initialValues={{
@@ -23,51 +26,54 @@ const LoginForm = ({ history, t }) => {
         try {
           const { data } = await axios.post(routes.loginPath(), values);
           logIn(data);
-          actions.setStatus('form-control is-valid');
+          actions.setStatus('valid');
           history.push('/');
         } catch (e) {
-          actions.setStatus('form-control is-invalid');
+          actions.setStatus('invalid');
           console.log('er', e);
+          rollbar.error(e);
         }
       }}
     >
       {({
-        handleChange, values, handleSubmit, status,
+        handleChange, values, handleSubmit, status, isSubmitting,
       }) => (
         <Form className="pt-2" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username" className="form-label">
+          <Form.Group>
+            <Form.Label htmlFor="username">
               { t('titles.login.username') }
-            </label>
-            <Field
+            </Form.Label>
+            <Form.Control
               id="username"
               name="username"
               autoComplete="username"
               onChange={handleChange}
               value={values.username}
-              className={status}
+              className={status === 'invalid' && 'is-invalid'}
               required
             />
-          </div>
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">
+          </Form.Group>
+          <Form.Group>
+            <Form.Label htmlFor="password">
               { t('titles.login.password') }
-            </label>
-            <Field
+            </Form.Label>
+            <Form.Control
               type="password"
               id="password"
               name="password"
               autoComplete="current-password"
               onChange={handleChange}
               value={values.password}
-              className={status}
+              className={status === 'invalid' && 'is-invalid'}
               required
             />
-            {status.includes('is-invalid') && <div className="invalid-feedback">{ t('errors.loginFalied') }</div>}
-          </div>
-          <button className="btn btn-outline-primary btn-block mb-3" type="submit">
+            <Form.Control.Feedback type="invalid">
+              { t('errors.loginFalied') }
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button variant="outline-primary" block type="submit" className="mb-3" disabled={isSubmitting}>
             { t('buttons.login') }
-          </button>
+          </Button>
           <div className="d-flex flex-column align-items-center">
             <span className="mb-2 small">{ t('titles.login.newUser') }</span>
             <a href="/signup">{ t('buttons.loginSignup') }</a>
