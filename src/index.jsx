@@ -16,15 +16,16 @@ import RollbarContext, { rollbar } from './components/context/RollbarContext.js'
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-
-render(
-  <Provider store={store}>
-    <RollbarContext.Provider value={rollbar}>
-      <SocketContext.Provider value={socket}>
-        <UserProvider>
-          <App />
-        </UserProvider>
-      </SocketContext.Provider>
-    </RollbarContext.Provider>
-  </Provider>, document.getElementById('chat'),
-);
+export default () => {
+  render(
+    <Provider store={store}>
+      <RollbarContext.Provider value={rollbar}>
+        <SocketContext.Provider value={socket}>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </SocketContext.Provider>
+      </RollbarContext.Provider>
+    </Provider>, document.getElementById('chat'),
+  );
+};
