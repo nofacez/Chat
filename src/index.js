@@ -12,8 +12,8 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-render(
-  <Root />, document.getElementById('chat'),
-);
+// render(
+//   <Root />, document.getElementById('chat'),
+// );
 
-export default () => <Root />;
+export default () => Root;
