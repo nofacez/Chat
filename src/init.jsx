@@ -16,6 +16,7 @@ import RollbarContext, { rollbar } from './components/context/RollbarContext.js'
 export default () => {
   const container = document.querySelector('#chat');
   console.log(container);
+  console.log(document);
   render(
     <Provider store={store}>
       <RollbarContext.Provider value={rollbar}>
