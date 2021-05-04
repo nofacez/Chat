@@ -16,4 +16,4 @@ render(
   <Root />, document.getElementById('chat'),
 );
 
-export default () => Root;
+export default () => <Root />;
