@@ -18,16 +18,19 @@ export default () => {
   console.log(container);
   console.log(document.body.innerHTML);
   console.log(document.body.outerHTML);
-  render(
-    <Provider store={store}>
-      <RollbarContext.Provider value={rollbar}>
-        <SocketContext.Provider value={socket}>
-          <UserProvider>
-            <App />
-          </UserProvider>
-        </SocketContext.Provider>
-      </RollbarContext.Provider>
-    </Provider>,
-    container,
-  );
+  console.log(document.isConnected);
+  if (document.isConnected) {
+    render(
+      <Provider store={store}>
+        <RollbarContext.Provider value={rollbar}>
+          <SocketContext.Provider value={socket}>
+            <UserProvider>
+              <App />
+            </UserProvider>
+          </SocketContext.Provider>
+        </RollbarContext.Provider>
+      </Provider>,
+      container,
+    );
+  }
 };
