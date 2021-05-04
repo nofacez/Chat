@@ -31,7 +31,7 @@ module.exports = {
     new MiniCssExtractPlugin(),
     new HtmlWebpackPlugin({
       template: 'server/views/index.pug',
-      filename: 'index.pug',
+      filename: 'index.html',
       minify: false,
     }),
     new HtmlWebpackPugPlugin(),
