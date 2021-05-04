@@ -29,12 +29,6 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'server/views/index.pug',
-      filename: 'index.html',
-      minify: false,
-    }),
-    new HtmlWebpackPugPlugin(),
   ],
   module: {
     rules: [
