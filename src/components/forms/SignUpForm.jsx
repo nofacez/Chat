@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 
+import RollbarContext from '../context/RollbarContext.js';
 import { useUser } from '../context/UserContext.jsx';
 import routes from '../../routes.js';
 
@@ -13,6 +14,7 @@ const SignUpForm = ({ history, t }) => {
     password: yup.string().required(t('errors.required')).min(6, t('errors.passwordLength')),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], t('errors.confirmation')),
   });
+  const rollbar = React.useContext(RollbarContext);
   const { logIn } = useUser();
   const [state, setState] = useState(true);
   return (
@@ -31,8 +33,10 @@ const SignUpForm = ({ history, t }) => {
           const { username, password } = values;
           const { data } = await axios.post(routes.signupPath(), { username, password });
           logIn({ username: data.username, token: data.token });
+          rollbar.info('User has signed up!');
           history.push('/');
         } catch (e) {
+          rollbar.error(e);
           if (e.response.status === 409) {
             setState(false);
             actions.setFieldError('confirmPassword', t('errors.userExists'));
@@ -53,7 +57,6 @@ const SignUpForm = ({ history, t }) => {
         isSubmitting,
         status,
       }) => {
-        console.log(errors);
         const defineState = (name) => {
           if (errors[name] && touched[name]) {
             return 'is-invalid';
@@ -71,7 +74,7 @@ const SignUpForm = ({ history, t }) => {
               </Form.Label>
               <Form.Control
                 id="username"
-                placeHolder={t('errors.length')}
+                placeholder={t('errors.length')}
                 name="username"
                 autoComplete="username"
                 onBlur={handleBlur}
@@ -93,7 +96,7 @@ const SignUpForm = ({ history, t }) => {
                 type="password"
                 id="password"
                 name="password"
-                placeHolder={t('errors.passwordLength')}
+                placeholder={t('errors.passwordLength')}
                 autoComplete="new-password"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -112,7 +115,7 @@ const SignUpForm = ({ history, t }) => {
               <Form.Control
                 type="password"
                 id="confirmPassword"
-                placeHolder={t('errors.confirmation')}
+                placeholder={t('errors.confirmation')}
                 name="confirmPassword"
                 autoComplete="current-password"
                 onChange={handleChange}
