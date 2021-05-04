@@ -26,17 +26,16 @@ const LoginForm = ({ history, t }) => {
         try {
           const { data } = await axios.post(routes.loginPath(), values);
           logIn(data);
-          actions.setStatus('valid');
           history.push('/');
         } catch (e) {
-          actions.setStatus('invalid');
+          actions.setFieldError('password', t('errors.loginFalied'));
           console.log('er', e);
           rollbar.error(e);
         }
       }}
     >
       {({
-        handleChange, values, handleSubmit, status, isSubmitting,
+        handleChange, values, handleSubmit, isSubmitting, errors,
       }) => (
         <Form className="pt-2" onSubmit={handleSubmit}>
           <Form.Group>
@@ -49,7 +48,7 @@ const LoginForm = ({ history, t }) => {
               autoComplete="username"
               onChange={handleChange}
               value={values.username}
-              className={status === 'invalid' && 'is-invalid'}
+              className={errors.password && 'is-invalid'}
               required
             />
           </Form.Group>
@@ -64,11 +63,11 @@ const LoginForm = ({ history, t }) => {
               autoComplete="current-password"
               onChange={handleChange}
               value={values.password}
-              className={status === 'invalid' && 'is-invalid'}
+              className={errors.password && 'is-invalid'}
               required
             />
             <Form.Control.Feedback type="invalid">
-              { t('errors.loginFalied') }
+              { errors.password }
             </Form.Control.Feedback>
           </Form.Group>
           <Button variant="outline-primary" block type="submit" className="mb-3" disabled={isSubmitting}>
