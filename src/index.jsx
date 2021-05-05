@@ -13,5 +13,5 @@ if (process.env.NODE_ENV !== 'production') {
 
 export default (socket) => {
   console.log('socket', socket);
-  return <Root />;
+  return <Root socket={socket} />;
 };

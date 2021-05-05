@@ -8,11 +8,11 @@ import { UserProvider } from './components/context/UserContext.jsx';
 import './i18n';
 import store from './app/store.js';
 import '../assets/application.scss';
-import SocketContext, { socket } from './components/context/SocketContext.js';
+import SocketContext from './components/context/SocketContext.js';
 import RollbarContext, { rollbar } from './components/context/RollbarContext.js';
 
 // @ts-ignore
-const Root = () => (
+const Root = ({ socket }) => (
   <Provider store={store}>
     <RollbarContext.Provider value={rollbar}>
       <SocketContext.Provider value={socket}>
