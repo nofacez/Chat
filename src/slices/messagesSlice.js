@@ -9,9 +9,11 @@ export const messagesSlice = createSlice({
   reducers: {
     addMessage: (state, action) => {
       console.log('newmsg', action.payload);
-      const updatedMsgs = [...state.messages, action.payload];
-      console.log('msgs list', updatedMsgs);
-      return { messages: updatedMsgs };
+      const { messages } = state;
+      // const updatedMsgs = [...state.messages, action.payload];
+      // console.log('msgs list', updatedMsgs);
+      messages.push(action.payload);
+      // return { messages: updatedMsgs };
     },
   },
   extraReducers: {

@@ -1,5 +1,4 @@
 import React from 'react';
-import { uniqueId } from 'lodash';
 import {
   InputGroup, FormControl, Button, Form,
 } from 'react-bootstrap';
@@ -25,6 +24,7 @@ const Messages = ({
       rollbar.error(e);
     }
   };
+
   console.log('all messages:', messages);
   return (
     <div className="col h-100">
@@ -32,13 +32,13 @@ const Messages = ({
         <div id="messages-box" className="chat-messages mb-3 overflow-auto">
           { messages && messages
             .filter(({ channelId }) => channelId === currentChannelId)
-            .map(({ body, username }) => (
-              <div className="text-break" key={uniqueId()}>
+            .map(({ body, username, id }) => (
+              <div className="text-break" key={id}>
                 <b>{username}</b>
                 {': '}
                 {body}
               </div>
-            ))}
+            )) }
         </div>
         <div className="mt-auto">
           <Formik

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dropdown, ButtonGroup, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { uniqueId } from 'lodash';
 import { useTranslation } from 'react-i18next';
 
 import { setCurrentChannel } from '../../slices/channelsSlice.js';
@@ -26,7 +25,7 @@ const Channels = ({ channels, currentChannelId }) => {
       </div>
       <ul className="nav flex-column nav-pills">
         { channels.map(({ id, name, removable }) => (
-          <li className="nav-item" key={uniqueId()}>
+          <li className="nav-item" key={id}>
             {
             removable
               ? (
