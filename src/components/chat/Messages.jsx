@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   InputGroup, FormControl, Button, Form,
 } from 'react-bootstrap';
@@ -6,10 +7,12 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import SocketContext from '../context/SocketContext';
+import { addMessage } from '../../slices/messagesSlice.js';
 
 const Messages = ({
   messages, currentChannelId, user,
 }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const schema = yup.object().shape({
     body: yup.string().required(t('errors.emptyMessage')),
@@ -17,8 +20,14 @@ const Messages = ({
   const socket = React.useContext(SocketContext);
   const handleSubmitMsg = useCallback((text) => {
     console.log('MSG', text);
-    socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data));
+    socket.emit('newMessage',
+      { username: user.username, body: text, channelId: currentChannelId },
+      (data) => console.log(data.status));
   });
+
+  useEffect(() => {
+    socket.on('newMessage', (message) => dispatch(addMessage(message)));
+  }, []);
 
   console.log('all messages:', messages);
   return (
