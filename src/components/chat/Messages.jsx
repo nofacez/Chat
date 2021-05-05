@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import SocketContext from '../context/SocketContext';
+import { rollbar } from '../context/RollbarContext';
 
 const Messages = ({
   messages, currentChannelId, user,
@@ -18,9 +19,13 @@ const Messages = ({
   const socket = React.useContext(SocketContext);
   const handleSubmitMsg = (text) => {
     console.log('MSG', text);
-    console.log(socket);
-    socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
+    try {
+      socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
+    } catch (e) {
+      rollbar.error(e);
+    }
   };
+  console.log('all messages:', messages);
   return (
     <div className="col h-100">
       <div className="d-flex flex-column h-100">
@@ -30,7 +35,7 @@ const Messages = ({
             .map(({ body, username }) => (
               <div className="text-break" key={uniqueId()}>
                 <b>{username}</b>
-                :&nbsp;
+                {': '}
                 {body}
               </div>
             ))}

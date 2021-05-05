@@ -10,6 +10,7 @@ export const messagesSlice = createSlice({
     addMessage: (state, action) => {
       console.log('newmsg', action.payload);
       const updatedMsgs = [...state.messages, action.payload];
+      console.log('msgs list', updatedMsgs);
       return { messages: updatedMsgs };
     },
   },
