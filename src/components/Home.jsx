@@ -39,7 +39,12 @@ const Home = () => {
   // const getMessage = () => socket.on('newMessage', (message) => dispatch(addMessage(message)));
 
   useEffect(() => {
-    socket.on('newMessage', (message) => dispatch(addMessage(message)));
+    socket.on('newMessage', (message, ack) => {
+      console.log('ack', ack);
+      if (ack) {
+        dispatch(addMessage(message));
+      }
+    });
   }, []);
 
   useEffect(() => {
