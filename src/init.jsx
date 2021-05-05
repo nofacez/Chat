@@ -2,7 +2,6 @@
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import React from 'react';
-import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import App from './components/App.jsx';
 import { UserProvider } from './components/context/UserContext.jsx';
@@ -25,5 +24,4 @@ const Root = () => (
   </Provider>
 );
 
-render(<Root />, document.getElementById('chat'));
 export default Root;
