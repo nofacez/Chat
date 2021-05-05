@@ -6,7 +6,6 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import SocketContext from '../context/SocketContext';
-import { rollbar } from '../context/RollbarContext';
 
 const Messages = ({
   messages, currentChannelId, user,
@@ -18,11 +17,7 @@ const Messages = ({
   const socket = React.useContext(SocketContext);
   const handleSubmitMsg = (text) => {
     console.log('MSG', text);
-    try {
-      socket.volatile.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
-    } catch (e) {
-      rollbar.error(e);
-    }
+    socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
   };
 
   console.log('all messages:', messages);
