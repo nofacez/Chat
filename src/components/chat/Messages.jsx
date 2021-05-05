@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   InputGroup, FormControl, Button, Form,
 } from 'react-bootstrap';
@@ -15,10 +15,10 @@ const Messages = ({
     body: yup.string().required(t('errors.emptyMessage')),
   });
   const socket = React.useContext(SocketContext);
-  const handleSubmitMsg = (text) => {
+  const handleSubmitMsg = useCallback((text) => {
     console.log('MSG', text);
-    socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
-  };
+    socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data));
+  });
 
   console.log('all messages:', messages);
   return (
