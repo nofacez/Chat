@@ -34,7 +34,7 @@ const SignUpForm = ({ history, t }) => {
           const { data } = await axios.post(routes.signupPath(), { username, password });
           logIn({ username: data.username, token: data.token });
           rollbar.info('User has signed up!');
-          history.push('/');
+          window.location.assign('/');
         } catch (e) {
           rollbar.error(e);
           if (e.response.status === 409) {

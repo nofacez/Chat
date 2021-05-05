@@ -8,7 +8,7 @@ import { useUser } from '../context/UserContext.jsx';
 import routes from '../../routes.js';
 import RollbarContext from '../context/RollbarContext.js';
 
-const LoginForm = ({ t }) => {
+const LoginForm = ({ history, t }) => {
   const schema = yup.object().shape({
     username: yup.string(),
     password: yup.string(),
@@ -28,8 +28,8 @@ const LoginForm = ({ t }) => {
           const { data } = await axios.post(routes.loginPath(), values);
           console.log(data);
           logIn(data);
-          window.location.assign('/');
-          // history.push('/');
+          // window.location.assign('/');
+          history.push('/');
         } catch (e) {
           actions.setFieldError('password', t('errors.loginFalied'));
           console.log('er', e);
