@@ -1,16 +1,17 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import * as yup from 'yup';
 import { useUser } from '../context/UserContext.jsx';
 import routes from '../../routes.js';
 import RollbarContext from '../context/RollbarContext.js';
 
-const LoginForm = ({ history, t }) => {
+const LoginForm = ({ t }) => {
   const schema = yup.object().shape({
-    username: yup.string().required(),
-    password: yup.string().required(),
+    username: yup.string(),
+    password: yup.string(),
   });
   const { logIn } = useUser();
   const rollbar = React.useContext(RollbarContext);
@@ -77,7 +78,7 @@ const LoginForm = ({ history, t }) => {
           </Button>
           <div className="d-flex flex-column align-items-center">
             <span className="mb-2 small">{ t('titles.login.newUser') }</span>
-            <a href="/signup">{ t('buttons.loginSignup') }</a>
+            <Link to="/signup">{ t('buttons.loginSignup') }</Link>
           </div>
         </Form>
       )}
