@@ -39,18 +39,22 @@ const Home = () => {
   // const getMessage = () => socket.on('newMessage', (message) => dispatch(addMessage(message)));
 
   useEffect(() => {
+    console.log('msg');
     socket.on('newMessage', (message) => dispatch(addMessage(message)));
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
+    console.log('chn');
     socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
   }, []);
 
   useEffect(() => {
+    console.log('rm');
     socket.on('removeChannel', (channel) => dispatch(removeChannel(channel)));
   }, []);
 
   useEffect(() => {
+    console.log('rn');
     socket.on('renameChannel', (channel) => dispatch(renameChannel(channel)));
   }, []);
 

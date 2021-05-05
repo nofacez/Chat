@@ -17,6 +17,8 @@ const Messages = ({
   });
   const socket = React.useContext(SocketContext);
   const handleSubmitMsg = (text) => {
+    console.log('MSG', text);
+    console.log(socket);
     socket.emit('newMessage', { username: user.username, body: text, channelId: currentChannelId }, (data) => console.log(data.status));
   };
   return (
