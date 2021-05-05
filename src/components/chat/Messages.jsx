@@ -42,7 +42,7 @@ const Messages = ({
             }}
             validateOnChange={false}
             validationSchema={schema}
-            onSubmit={async (values, actions) => {
+            onSubmit={(values, actions) => {
               handleSubmitMsg(values.body);
               actions.resetForm();
             }}
