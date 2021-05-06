@@ -34,10 +34,11 @@ const Home = () => {
   useEffect(async () => {
     const data = await getInitialState();
     dispatch(setInitialState(data));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     socket.on('newMessage', (message) => dispatch(addMessage(message)));
+    return (() => socket.off('newMessage', (message) => dispatch(addMessage(message))));
   }, []);
 
   useEffect(() => {

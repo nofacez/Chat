@@ -11,7 +11,4 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-export default (socket) => {
-  console.log('socket', socket);
-  return <Root socket={socket} />;
-};
+export default (socket) => <Root socket={socket} />;

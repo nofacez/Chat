@@ -23,6 +23,7 @@ const Messages = ({
       setCalled(true);
       onTimeout();
     }, timeout);
+
     console.log('inner', messages);
     return (...args) => {
       if (called) return;
@@ -81,7 +82,7 @@ const Messages = ({
                   console.log('success!!', args);
                 }, () => {
                   console.log('timeout!');
-                }, 1000));
+                }, 500));
               actions.resetForm();
             }}
           >
@@ -102,9 +103,12 @@ const Messages = ({
                   <InputGroup.Append>
                     <Button type="submit" variant="primary" disabled={isSubmitting}>{ t('buttons.send') }</Button>
                   </InputGroup.Append>
-                  <Form.Control.Feedback type="invalid">
-                    { errors.body }
-                  </Form.Control.Feedback>
+                  { errors.body
+                    && (
+                      <Form.Control.Feedback type="invalid">
+                        { errors.body }
+                      </Form.Control.Feedback>
+                    )}
                 </InputGroup>
               </Form>
             )}
