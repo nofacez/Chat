@@ -78,7 +78,7 @@ const Messages = ({
               socket.emit('newMessage',
                 { username: user.username, body: values.body, channelId: currentChannelId },
                 withTimeout((args) => {
-                  console.log('success!', args);
+                  console.log('success!!', args);
                 }, () => {
                   console.log('timeout!');
                 }, 1000));
