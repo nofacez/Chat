@@ -50,12 +50,12 @@ const Messages = ({
       }, 1000));
   };
 
-  useEffect(() => {
-    socket.on('newMessage', (message) => dispatch(addMessage(message)));
-    return (() => {
-      socket.off('newMessage', (message) => dispatch(addMessage(message)));
-    });
-  }, []);
+  // useEffect(() => {
+  //   socket.on('newMessage', (message) => dispatch(addMessage(message)));
+  //   return (() => {
+  //     socket.off('newMessage', (message) => dispatch(addMessage(message)));
+  //   });
+  // }, []);
 
   console.log('all messages:', messages);
   return (

@@ -38,11 +38,7 @@ const Home = () => {
   // const getMessage = () => socket.on('newMessage', (message) => dispatch(addMessage(message)));
 
   // useEffect(() => {
-  //   try {
-  //     socket.on('newMessage', (message) => dispatch(addMessage(message)));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
+  // socket.on('newMessage', (message) => dispatch(addMessage(message)));
   // }, []);
 
   useEffect(() => {
