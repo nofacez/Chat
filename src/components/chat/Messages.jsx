@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import {
   InputGroup, FormControl, Button, Form,
 } from 'react-bootstrap';
+// import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import SocketContext from '../context/SocketContext';
+// import { addMessage } from '../../slices/messagesSlice.js';
 
 const Messages = ({
   messages, currentChannelId, user,
@@ -17,6 +19,7 @@ const Messages = ({
   const socket = React.useContext(SocketContext);
   const [called, setCalled] = useState(false);
 
+  // const dispatch = useDispatch();
   const withTimeout = (onSuccess, onTimeout, timeout) => {
     const timer = setTimeout(() => {
       if (called) return;
@@ -27,11 +30,8 @@ const Messages = ({
     console.log('inner', messages);
     return (...args) => {
       if (called) return;
-      setCalled(true);
       clearTimeout(timer);
-      console.log(args);
       onSuccess(args);
-      console.log(messages);
     };
   };
 
@@ -47,11 +47,14 @@ const Messages = ({
   // };
 
   // useEffect(() => {
-  //   socket.on('newMessage', (message) => dispatch(addMessage(message)));
+  //   if (called) {
+  //     socket.on('newMessage', (message) => dispatch(addMessage(message)));
+  //   }
   //   return (() => {
+  //     setCalled(false);
   //     socket.off('newMessage', (message) => dispatch(addMessage(message)));
   //   });
-  // }, []);
+  // }, [called]);
 
   console.log('all messages:', messages);
   return (
@@ -80,9 +83,10 @@ const Messages = ({
                 { username: user.username, body: values.body, channelId: currentChannelId },
                 withTimeout((args) => {
                   console.log('success!!', args);
+                  setCalled(true);
                 }, () => {
                   console.log('timeout!');
-                }, 500));
+                }, 1000));
               actions.resetForm();
             }}
           >

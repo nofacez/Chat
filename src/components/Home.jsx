@@ -4,7 +4,7 @@ import axios from 'axios';
 import {
   setInitialState, addChannel, removeChannel, renameChannel,
 } from '../slices/channelsSlice.js';
-import { addMessage } from '../slices/messagesSlice.js';
+// import { addMessage } from '../slices/messagesSlice.js';
 
 import routes from '../routes.js';
 import Channels from './chat/Channels.jsx';
@@ -36,10 +36,10 @@ const Home = () => {
     dispatch(setInitialState(data));
   }, [dispatch]);
 
-  useEffect(() => {
-    socket.on('newMessage', (message) => dispatch(addMessage(message)));
-    return (() => socket.off('newMessage', (message) => dispatch(addMessage(message))));
-  }, []);
+  // useEffect(() => {
+  //   socket.on('newMessage', (message) => dispatch(addMessage(message)));
+  //   return (() => socket.off('newMessage', (message) => dispatch(addMessage(message))));
+  // }, []);
 
   useEffect(() => {
     socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
