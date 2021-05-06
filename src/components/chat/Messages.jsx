@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   InputGroup, FormControl, Button, Form,
@@ -18,12 +18,36 @@ const Messages = ({
     body: yup.string().required(t('errors.emptyMessage')),
   });
   const socket = React.useContext(SocketContext);
-  const handleSubmitMsg = useCallback((text) => {
+
+  const withTimeout = (onSuccess, onTimeout, timeout) => {
+    // eslint-disable-next-line functional/no-let
+    let called = false;
+
+    const timer = setTimeout(() => {
+      if (called) return;
+      called = true;
+      onTimeout();
+    }, timeout);
+
+    return (...args) => {
+      if (called) return;
+      called = true;
+      clearTimeout(timer);
+      console.log(args);
+      onSuccess(args);
+    };
+  };
+
+  const handleSubmitMsg = (text) => {
     console.log('MSG', text);
     socket.emit('newMessage',
       { username: user.username, body: text, channelId: currentChannelId },
-      (data) => console.log(data.status));
-  });
+      withTimeout((args) => {
+        console.log('success!', args);
+      }, () => {
+        console.log('timeout!');
+      }, 1000));
+  };
 
   useEffect(() => {
     socket.on('newMessage', (message) => dispatch(addMessage(message)));
