@@ -23,7 +23,7 @@ const Messages = ({
       setCalled(true);
       onTimeout();
     }, timeout);
-
+    console.log('inner', messages);
     return (...args) => {
       if (called) return;
       setCalled(true);
@@ -42,7 +42,7 @@ const Messages = ({
         console.log('success!', args);
       }, () => {
         console.log('timeout!');
-      }, 5000));
+      }, 1000));
   };
 
   // useEffect(() => {
@@ -57,7 +57,7 @@ const Messages = ({
     <div className="col h-100">
       <div className="d-flex flex-column h-100">
         <div id="messages-box" className="chat-messages mb-3 overflow-auto">
-          { messages && messages
+          { messages
             .filter(({ channelId }) => channelId === currentChannelId)
             .map(({ body, username, id }) => (
               <div className="text-break" key={id}>

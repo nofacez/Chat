@@ -8,6 +8,7 @@ export const channelsSlice = createSlice({
   },
   reducers: {
     setInitialState: (state, action) => {
+      console.log('INIT STATE');
       const { channels, currentChannelId } = action.payload;
       return { channels, currentChannelId };
     },

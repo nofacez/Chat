@@ -13,13 +13,14 @@ export const messagesSlice = createSlice({
       // const updatedMsgs = [...state.messages, action.payload];
       // console.log('msgs list', updatedMsgs);
       messages.push(action.payload);
+      console.log(messages);
       // return { messages: updatedMsgs };
     },
   },
   extraReducers: {
     [setInitialState]: (state, action) => {
-      console.log('extra');
       const { messages } = action.payload;
+      console.log('extra', messages);
       return { messages };
     },
     [removeChannel]: (state, action) => {
