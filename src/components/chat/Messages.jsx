@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import {
   InputGroup, FormControl, Button, Form,
 } from 'react-bootstrap';
@@ -7,12 +6,10 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import SocketContext from '../context/SocketContext';
-import { addMessage } from '../../slices/messagesSlice.js';
 
 const Messages = ({
   messages, currentChannelId, user,
 }) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const schema = yup.object().shape({
     body: yup.string().required(t('errors.emptyMessage')),
@@ -21,9 +18,6 @@ const Messages = ({
   const [called, setCalled] = useState(false);
 
   const withTimeout = (onSuccess, onTimeout, timeout) => {
-    // eslint-disable-next-line functional/no-let
-    // let called = false;
-
     const timer = setTimeout(() => {
       if (called) return;
       setCalled(true);
@@ -36,6 +30,7 @@ const Messages = ({
       clearTimeout(timer);
       console.log(args);
       onSuccess(args);
+      console.log(messages);
     };
   };
 

@@ -14,13 +14,12 @@ import { useUser } from './context/UserContext.jsx';
 import AddChannelModal from './modals/AddChannelModal.jsx';
 import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
 import RenameChannelModal from './modals/RenameChannelModal.jsx';
-import SocketListeners from './context/SocketListeners.jsx';
 
 const App = () => {
   const { user } = useUser();
   return (
     <Router>
-      <SocketListeners>
+      <div className="h-100 d-flex flex-column">
         <Navbar />
         <Switch>
           <Route exact path="/">
@@ -36,7 +35,7 @@ const App = () => {
             <NoMatch />
           </Route>
         </Switch>
-      </SocketListeners>
+      </div>
       <AddChannelModal />
       <RemoveChannelModal />
       <RenameChannelModal />
