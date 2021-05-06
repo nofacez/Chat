@@ -42,7 +42,7 @@ const Messages = ({
         console.log('success!', args);
       }, () => {
         console.log('timeout!');
-      }, 1000));
+      }, 5000));
   };
 
   // useEffect(() => {

@@ -20,7 +20,7 @@ const Home = () => {
   const { messages } = useSelector((state) => state.messagesInfo);
   const socket = React.useContext(SocketContext);
   const { user } = useUser();
-  console.log(useUser());
+  console.log(messages);
 
   const getInitialState = async () => {
     const response = await axios.get(routes.dataPath(), {
