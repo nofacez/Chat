@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   InputGroup, FormControl, Button, Form,
@@ -18,20 +18,21 @@ const Messages = ({
     body: yup.string().required(t('errors.emptyMessage')),
   });
   const socket = React.useContext(SocketContext);
+  const [called, setCalled] = useState(false);
 
   const withTimeout = (onSuccess, onTimeout, timeout) => {
     // eslint-disable-next-line functional/no-let
-    let called = false;
+    // let called = false;
 
     const timer = setTimeout(() => {
       if (called) return;
-      called = true;
+      setCalled(true);
       onTimeout();
     }, timeout);
 
     return (...args) => {
       if (called) return;
-      called = true;
+      setCalled(true);
       clearTimeout(timer);
       console.log(args);
       onSuccess(args);
@@ -50,8 +51,10 @@ const Messages = ({
   };
 
   useEffect(() => {
-    socket.on('newMessage', (message) => dispatch(addMessage(message)));
-  }, []);
+    if (called) {
+      socket.on('newMessage', (message) => dispatch(addMessage(message)));
+    }
+  }, [called]);
 
   console.log('all messages:', messages);
   return (
