@@ -34,16 +34,16 @@ const Messages = ({
     };
   };
 
-  const handleSubmitMsg = (text) => {
-    console.log('MSG', text);
-    socket.emit('newMessage',
-      { username: user.username, body: text, channelId: currentChannelId },
-      withTimeout((args) => {
-        console.log('success!', args);
-      }, () => {
-        console.log('timeout!');
-      }, 1000));
-  };
+  // const handleSubmitMsg = (text) => {
+  //   console.log('MSG', text);
+  //   socket.emit('newMessage',
+  //     { username: user.username, body: text, channelId: currentChannelId },
+  //     withTimeout((args) => {
+  //       console.log('success!', args);
+  //     }, () => {
+  //       console.log('timeout!');
+  //     }, 1000));
+  // };
 
   // useEffect(() => {
   //   socket.on('newMessage', (message) => dispatch(addMessage(message)));
@@ -75,7 +75,13 @@ const Messages = ({
             validateOnChange={false}
             validationSchema={schema}
             onSubmit={(values, actions) => {
-              handleSubmitMsg(values.body);
+              socket.emit('newMessage',
+                { username: user.username, body: values.body, channelId: currentChannelId },
+                withTimeout((args) => {
+                  console.log('success!', args);
+                }, () => {
+                  console.log('timeout!');
+                }, 1000));
               actions.resetForm();
             }}
           >
