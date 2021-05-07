@@ -36,7 +36,7 @@ const Messages = ({
 
   const handleSubmitMsg = (text) => {
     console.log('MSG', text);
-    socket.volatile.emit('newMessage',
+    socket.emit('newMessage',
       { username: user.username, body: text, channelId: currentChannelId },
       (resp) => {
         console.log(resp);
@@ -83,7 +83,14 @@ const Messages = ({
             {({
               values, handleChange, handleSubmit, errors, isValid, isSubmitting,
             }) => (
-              <Form onSubmit={handleSubmit} noValidate autoFocus>
+              <Form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmit();
+                }}
+                noValidate
+                autoFocus
+              >
                 <InputGroup className="mb-3" hasValidation={!isValid}>
                   <FormControl
                     aria-label="body"
