@@ -36,9 +36,11 @@ const Messages = ({
 
   const handleSubmitMsg = (text) => {
     console.log('MSG', text);
-    socket.emit('newMessage',
+    socket.volatile.emit('newMessage',
       { username: user.username, body: text, channelId: currentChannelId },
-      (resp) => console.log(resp));
+      (resp) => {
+        console.log(resp);
+      });
   };
 
   // useEffect(() => {

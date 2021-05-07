@@ -20,7 +20,6 @@ import { addMessage } from '../slices/messagesSlice.js';
 
 const App = ({ socket }) => {
   const { user } = useUser();
-  // const { socket } = useSocket();
   const dispatch = useDispatch();
   socket.removeAllListeners();
   socket.on('newMessage', (message) => dispatch(addMessage(message)));
