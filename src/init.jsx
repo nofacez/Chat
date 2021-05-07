@@ -8,18 +8,15 @@ import { UserProvider } from './components/context/UserContext.jsx';
 import './i18n';
 import store from './app/store.js';
 import '../assets/application.scss';
-import SocketContext from './components/context/SocketContext.js';
 import RollbarContext, { rollbar } from './components/context/RollbarContext.js';
 
 // @ts-ignore
 const Root = ({ socket }) => (
   <Provider store={store}>
     <RollbarContext.Provider value={rollbar}>
-      <SocketContext.Provider value={socket}>
-        <UserProvider>
-          <App />
-        </UserProvider>
-      </SocketContext.Provider>
+      <UserProvider>
+        <App socket={socket} />
+      </UserProvider>
     </RollbarContext.Provider>
   </Provider>
 );

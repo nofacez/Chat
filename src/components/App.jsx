@@ -15,21 +15,28 @@ import { useUser } from './context/UserContext.jsx';
 import AddChannelModal from './modals/AddChannelModal.jsx';
 import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
 import RenameChannelModal from './modals/RenameChannelModal.jsx';
-import SocketContext from './context/SocketContext.js';
+import { addChannel, removeChannel, renameChannel } from '../slices/channelsSlice.js';
 import { addMessage } from '../slices/messagesSlice.js';
 
-const App = () => {
-  const socket = React.useContext(SocketContext);
+const App = ({ socket }) => {
   const { user } = useUser();
+  // const { socket } = useSocket();
   const dispatch = useDispatch();
+  socket.removeAllListeners();
   socket.on('newMessage', (message) => dispatch(addMessage(message)));
+
+  socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
+
+  socket.on('removeChannel', (channel) => dispatch(removeChannel(channel)));
+
+  socket.on('renameChannel', (channel) => dispatch(renameChannel(channel)));
   return (
     <Router>
       <div className="h-100 d-flex flex-column">
-        <Navbar />
+        <Navbar socket={socket} />
         <Switch>
           <Route exact path="/">
-            { user ? <Home /> : <Redirect to="/login" /> }
+            { user ? <Home socket={socket} /> : <Redirect to="/login" /> }
           </Route>
           <Route path="/login">
             <Login />
@@ -42,9 +49,9 @@ const App = () => {
           </Route>
         </Switch>
       </div>
-      <AddChannelModal />
-      <RemoveChannelModal />
-      <RenameChannelModal />
+      <AddChannelModal socket={socket} />
+      <RemoveChannelModal socket={socket} />
+      <RenameChannelModal socket={socket} />
     </Router>
   );
 };

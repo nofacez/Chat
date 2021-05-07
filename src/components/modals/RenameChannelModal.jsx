@@ -4,13 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalSlice.js';
 import RenameForm from '../forms/RenameForm.jsx';
-import SocketContext from '../context/SocketContext.js';
 
-const RenameChannelModal = () => {
+const RenameChannelModal = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { open, currentModal } = useSelector((state) => state.modal);
-  const socket = React.useContext(SocketContext);
+  // const { socket } = useSocket();
 
   const handleCloseModal = () => () => {
     dispatch(closeModal());

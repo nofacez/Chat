@@ -3,15 +3,14 @@ import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUser } from './context/UserContext.jsx';
-import SocketContext from './context/SocketContext.js';
 
-const Navbar = () => {
+const Navbar = ({ socket }) => {
   const { t } = useTranslation();
   const { user, logOut } = useUser();
-  const socket = React.useContext(SocketContext);
+  // const { socket } = useSocket();
   const handleLogout = () => {
-    logOut();
     socket.removeAllListeners();
+    logOut();
   };
   return (
     <nav className="navbar navbar-light bg-light mb-3">

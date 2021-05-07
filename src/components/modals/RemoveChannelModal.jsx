@@ -3,13 +3,12 @@ import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalSlice.js';
-import SocketContext from '../context/SocketContext.js';
 
-const RemoveChannelModal = () => {
+const RemoveChannelModal = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { open, currentModal, extra } = useSelector((state) => state.modal);
-  const socket = React.useContext(SocketContext);
+  // const { socket } = useSocket();
 
   const handleCloseModal = () => () => {
     dispatch(closeModal());

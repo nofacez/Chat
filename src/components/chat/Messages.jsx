@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   InputGroup, FormControl, Button, Form,
 } from 'react-bootstrap';
@@ -6,45 +6,40 @@ import {
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
-import SocketContext from '../context/SocketContext';
 // import { addMessage } from '../../slices/messagesSlice.js';
 
 const Messages = ({
-  messages, currentChannelId, user,
+  messages, currentChannelId, user, socket,
 }) => {
   const { t } = useTranslation();
+  // const { socket } = useSocket();
   const schema = yup.object().shape({
     body: yup.string().required(t('errors.emptyMessage')),
   });
-  const socket = React.useContext(SocketContext);
-  const [called, setCalled] = useState(false);
+  // const [called, setCalled] = useState(false);
 
   // const dispatch = useDispatch();
-  const withTimeout = (onSuccess, onTimeout, timeout) => {
-    const timer = setTimeout(() => {
-      if (called) return;
-      setCalled(true);
-      onTimeout();
-    }, timeout);
+  // const withTimeout = (onSuccess, onTimeout, timeout) => {
+  //   const timer = setTimeout(() => {
+  //     if (called) return;
+  //     setCalled(true);
+  //     onTimeout();
+  //   }, timeout);
 
-    console.log('inner', messages);
-    return (...args) => {
-      if (called) return;
-      clearTimeout(timer);
-      onSuccess(args);
-    };
-  };
-
-  // const handleSubmitMsg = (text) => {
-  //   console.log('MSG', text);
-  //   socket.emit('newMessage',
-  //     { username: user.username, body: text, channelId: currentChannelId },
-  //     withTimeout((args) => {
-  //       console.log('success!', args);
-  //     }, () => {
-  //       console.log('timeout!');
-  //     }, 1000));
+  //   console.log('inner', messages);
+  //   return (...args) => {
+  //     if (called) return;
+  //     clearTimeout(timer);
+  //     onSuccess(args);
+  //   };
   // };
+
+  const handleSubmitMsg = (text) => {
+    console.log('MSG', text);
+    socket.emit('newMessage',
+      { username: user.username, body: text, channelId: currentChannelId },
+      (resp) => console.log(resp));
+  };
 
   // useEffect(() => {
   //   if (called) {
@@ -79,14 +74,7 @@ const Messages = ({
             validateOnChange={false}
             validationSchema={schema}
             onSubmit={(values, actions) => {
-              socket.emit('newMessage',
-                { username: user.username, body: values.body, channelId: currentChannelId },
-                withTimeout((args) => {
-                  console.log('success!!', args);
-                  setCalled(true);
-                }, () => {
-                  console.log('timeout!');
-                }, 1000));
+              handleSubmitMsg(values.body);
               actions.resetForm();
             }}
           >
