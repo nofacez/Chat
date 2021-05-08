@@ -9,7 +9,7 @@ const Navbar = ({ socket }) => {
   const { user, logOut } = useUser();
   // const { socket } = useSocket();
   const handleLogout = () => {
-    socket.removeAllListeners();
+    // socket.removeAllListeners();
     logOut();
   };
   return (
