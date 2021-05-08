@@ -35,7 +35,9 @@ const Messages = ({
   // };
 
   const handleSubmitMsg = (text) => {
-    console.log('MSG', text);
+    if (!socket.connected) {
+      throw new Error('Socket is disconnected!');
+    }
     socket.emit('newMessage',
       { username: user.username, body: text, channelId: currentChannelId },
       (resp) => {
