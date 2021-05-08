@@ -17,7 +17,7 @@ export const messagesSlice = createSlice({
     },
   },
   extraReducers: {
-    [setInitialState]: (state, action) => {
+    [setInitialState.fulfilled]: (state, action) => {
       const { messages } = action.payload;
       console.log('extra', messages);
       return { messages };

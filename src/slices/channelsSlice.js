@@ -1,4 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import routes from '../routes.js';
+
+export const setInitialState = createAsyncThunk(
+  'channelsInfo/setInitialState',
+  async (token) => {
+    const { data } = await axios.get(routes.dataPath(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('async', data);
+    return data;
+  },
+);
 
 export const channelsSlice = createSlice({
   name: 'channelsInfo',
@@ -7,11 +22,11 @@ export const channelsSlice = createSlice({
     currentChannelId: null,
   },
   reducers: {
-    setInitialState: (state, action) => {
-      console.log('INIT STATE');
-      const { channels, currentChannelId } = action.payload;
-      return { channels, currentChannelId };
-    },
+    // setInitialState: (state, action) => {
+    //   console.log('INIT STATE');
+    //   const { channels, currentChannelId } = action.payload;
+    //   return { channels, currentChannelId };
+    // },
     setCurrentChannel: (state, action) => {
       const { id } = action.payload;
       return { ...state, currentChannelId: id };
@@ -34,9 +49,16 @@ export const channelsSlice = createSlice({
       channel.name = name;
     },
   },
+  extraReducers: {
+    [setInitialState.fulfilled]: (state, action) => {
+      console.log('extra state');
+      const { channels, currentChannelId } = action.payload;
+      return { channels, currentChannelId };
+    },
+  },
 });
 
 export const {
-  setCurrentChannel, addChannel, removeChannel, setInitialState, renameChannel,
+  setCurrentChannel, addChannel, removeChannel, renameChannel,
 } = channelsSlice.actions;
 export default channelsSlice.reducer;

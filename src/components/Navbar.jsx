@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useUser } from './context/UserContext.jsx';
 
-const Navbar = ({ socket }) => {
+const Navbar = () => {
   const { t } = useTranslation();
   const { user, logOut } = useUser();
   // const { socket } = useSocket();
