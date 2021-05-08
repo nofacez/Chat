@@ -38,11 +38,15 @@ const Messages = ({
     if (!socket.connected) {
       throw new Error('Socket is disconnected!');
     }
-    socket.emit('newMessage',
-      { username: user.username, body: text, channelId: currentChannelId },
-      (resp) => {
-        console.log(resp);
-      });
+    try {
+      socket.emit('newMessage',
+        { username: user.username, body: text, channelId: currentChannelId },
+        (resp) => {
+          console.log(resp);
+        });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   // useEffect(() => {
