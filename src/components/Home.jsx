@@ -22,19 +22,29 @@ const Home = ({ socket }) => {
   const { user } = useUser();
   console.log(socket);
 
-  const getInitialState = async () => {
-    const response = await axios.get(routes.dataPath(), {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return response.data;
-  };
+  // const getInitialState = async () => {
+  //   const response = await axios.get(routes.dataPath(), {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   });
+  //   return response.data;
+  // };
 
-  useEffect(async () => {
-    const data = await getInitialState();
-    dispatch(setInitialState(data));
-  }, [dispatch]);
+  useEffect(() => {
+    const getInitialState = async () => {
+      const response = await axios.get(routes.dataPath(), {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+      dispatch(setInitialState(response.data));
+    };
+    getInitialState();
+    // const data = getInitialState();
+    // dispatch(setInitialState(data));
+  }, []);
 
   return (
     <div className="row pb-5 flex-grow-1 h-75 pb-3">
