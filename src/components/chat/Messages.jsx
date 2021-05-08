@@ -38,15 +38,11 @@ const Messages = ({
     if (!socket.connected) {
       throw new Error('Socket is disconnected!');
     }
-    try {
-      socket.emit('newMessage',
-        { username: user.username, body: text, channelId: currentChannelId },
-        (resp) => {
-          console.log(resp);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+    socket.emit('newMessage',
+      { username: user.username, body: text, channelId: currentChannelId },
+      (resp) => {
+        console.log(resp);
+      });
   };
 
   // useEffect(() => {
@@ -82,8 +78,12 @@ const Messages = ({
             validateOnChange={false}
             validationSchema={schema}
             onSubmit={(values, actions) => {
-              handleSubmitMsg(values.body);
-              actions.resetForm();
+              try {
+                handleSubmitMsg(values.body);
+                actions.resetForm();
+              } catch (e) {
+                console.log(e);
+              }
             }}
           >
             {({
