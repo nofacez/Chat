@@ -18,33 +18,18 @@ const Home = ({ socket }) => {
   const { token } = JSON.parse(localStorage.getItem('user'));
   const { channels, currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
-  // const { socket } = useSocket();
   const { user } = useUser();
-  console.log(socket);
 
-  // const getInitialState = async () => {
-  //   const response = await axios.get(routes.dataPath(), {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   });
-  //   return response.data;
-  // };
+  const getInitialState = async () => {
+    const response = await axios.get(routes.dataPath(), {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch(setInitialState(response.data));
+  };
 
-  useEffect(() => {
-    const getInitialState = async () => {
-      const response = await axios.get(routes.dataPath(), {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(response);
-      dispatch(setInitialState(response.data));
-    };
-    getInitialState();
-    // const data = getInitialState();
-    // dispatch(setInitialState(data));
-  }, []);
+  useEffect(() => getInitialState(), []);
 
   return (
     <div className="row pb-5 flex-grow-1 h-75 pb-3">
