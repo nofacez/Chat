@@ -5,7 +5,7 @@ import './i18n.js';
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import { configureStore } from '@reduxjs/toolkit';
-import { Provider, useDispatch } from 'react-redux';
+import { Provider } from 'react-redux';
 import App from './components/App.jsx';
 import { UserProvider } from './components/context/UserContext.jsx';
 // import store from './app/store.js';
@@ -32,14 +32,14 @@ export default (socket) => {
     },
   });
   const Root = () => {
-    const dispatch = useDispatch();
-    socket.on('newMessage', (message) => dispatch(addMessage(message)));
+    // const dispatch = useDispatch();
+    socket.on('newMessage', (message) => store.dispatch(addMessage(message)));
 
-    socket.on('newChannel', (channel) => dispatch(addChannel(channel)));
+    socket.on('newChannel', (channel) => store.dispatch(addChannel(channel)));
 
-    socket.on('removeChannel', (channel) => dispatch(removeChannel(channel)));
+    socket.on('removeChannel', (channel) => store.dispatch(removeChannel(channel)));
 
-    socket.on('renameChannel', (channel) => dispatch(renameChannel(channel)));
+    socket.on('renameChannel', (channel) => store.dispatch(renameChannel(channel)));
     return (
       <RollbarContext.Provider value={rollbar}>
         <UserProvider>
