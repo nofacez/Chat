@@ -33,7 +33,6 @@ const SignUpForm = ({ history, t }) => {
           const { username, password } = values;
           const { data } = await axios.post(routes.signupPath(), { username, password });
           logIn({ username: data.username, token: data.token });
-          console.log('login');
           rollbar.info('User has signed up!');
           history.push('/');
         } catch (e) {

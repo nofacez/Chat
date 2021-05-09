@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-export default (socket) => {
+const Init = (socket) => {
   const store = getStore();
   socket.on('newMessage', (message) => store.dispatch(addMessage(message)));
 
@@ -73,3 +73,5 @@ export default (socket) => {
     </Provider>
   );
 };
+
+export default Init;

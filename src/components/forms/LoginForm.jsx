@@ -26,13 +26,11 @@ const LoginForm = ({ history, t }) => {
       onSubmit={async (values, actions) => {
         try {
           const { data } = await axios.post(routes.loginPath(), values);
-          console.log(data);
           logIn(data);
           // window.location.assign('/');
           history.push('/');
         } catch (e) {
           actions.setFieldError('password', t('errors.loginFalied'));
-          console.log('er', e);
           rollbar.error(e);
         }
       }}

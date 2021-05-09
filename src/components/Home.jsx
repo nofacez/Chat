@@ -34,7 +34,6 @@ const Home = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
       dispatch(setInitialState(response.data));
       setIsLoading(false);
     } catch (e) {
@@ -44,7 +43,7 @@ const Home = () => {
 
   useEffect(() => {
     getInitialState();
-  }, []);
+  }, [getInitialState]);
 
   if (isLoading) {
     return <Spinner />;

@@ -17,7 +17,6 @@ export const UserProvider = ({ children }) => {
     localStorage.removeItem('user');
     setUser(null);
   };
-  console.log(user);
   return (
     <UserContext.Provider value={{
       user,

@@ -16,10 +16,6 @@ const RemoveChannelModal = () => {
     dispatch(closeModal());
   };
 
-  // const removeChannel = () => {
-  //   socket.emit('removeChannel', extra, (resp) => console.log(resp));
-  // };
-
   return (
     <Modal
       show={open && currentModal === 'removeChannel'}

@@ -44,7 +44,6 @@ const AddChannelForm = ({ t, dispatch }) => {
         isValid,
         isSubmitting,
       }) => {
-        console.log('errr', errors);
         const inputClasses = cn(
           'mb-2',
           { 'is-invalid': !isValid },

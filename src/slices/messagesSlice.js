@@ -8,18 +8,13 @@ export const messagesSlice = createSlice({
   },
   reducers: {
     addMessage: (state, action) => {
-      console.log('newmsg', action.payload);
       const updatedMsgs = [...state.messages, action.payload];
-      console.log('msgs list', updatedMsgs);
-      // messages.push(action.payload);
-      // console.log(messages);
       return { messages: updatedMsgs };
     },
   },
   extraReducers: {
     [setInitialState]: (state, action) => {
       const { messages } = action.payload;
-      console.log('extra', messages);
       return { messages };
     },
     [removeChannel]: (state, action) => {

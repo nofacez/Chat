@@ -25,12 +25,6 @@ const RenameForm = ({ t, dispatch }) => {
     dispatch(closeModal());
   };
 
-  // const handleRenameChannel = ({ name }) => {
-  //   socket.emit('renameChannel', { id: extra.id, name }, ({ status }) => {
-  //     console.log(status);
-  //   });
-  // };
-
   const currentChannel = channels.find((c) => c.id === extra.id);
 
   return (
@@ -55,7 +49,6 @@ const RenameForm = ({ t, dispatch }) => {
         isValid,
         isSubmitting,
       }) => {
-        console.log('errr', errors);
         const inputClasses = cn(
           'mb-2',
           { 'is-invalid': !isValid },

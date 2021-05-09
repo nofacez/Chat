@@ -5,8 +5,6 @@ import MessagesForm from '../forms/MessagesForm.jsx';
 const Messages = ({ user }) => {
   const { currentChannelId } = useSelector((state) => state.channelsInfo);
   const { messages } = useSelector((state) => state.messagesInfo);
-
-  console.log('all messages:', messages);
   return (
     <div className="col h-100">
       <div className="d-flex flex-column h-100">
