@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { setInitialState } from '../slices/channelsSlice.js';
@@ -12,7 +12,16 @@ import Channels from './chat/Channels.jsx';
 import Messages from './chat/Messages.jsx';
 import { useUser } from './context/UserContext.jsx';
 
+const Spinner = () => (
+  <div className="h-100 d-flex justify-content-center align-items-center">
+    <div className="spinner-border text-secondary" role="status">
+      <span className="sr-only">Loading...</span>
+    </div>
+  </div>
+);
+
 const Home = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const { localStorage } = window;
   const { token } = JSON.parse(localStorage.getItem('user'));
@@ -27,6 +36,7 @@ const Home = () => {
       });
       console.log(response);
       dispatch(setInitialState(response.data));
+      setIsLoading(false);
     } catch (e) {
       throw new Error(e);
     }
@@ -35,6 +45,10 @@ const Home = () => {
   useEffect(() => {
     getInitialState();
   }, []);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
