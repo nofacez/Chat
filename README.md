@@ -15,6 +15,7 @@
 
 ## Что я использовал в рамках проекта?
   * React, Redux-toolkit
+  * Webpack
   * Bootstrap, react-bootstrap
   * Axios, Socket.io
   * Formik
