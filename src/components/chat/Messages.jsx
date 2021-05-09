@@ -2,15 +2,15 @@ import React from 'react';
 import {
   InputGroup, FormControl, Button, Form,
 } from 'react-bootstrap';
-// import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 // import { addMessage } from '../../slices/messagesSlice.js';
 
-const Messages = ({
-  messages, currentChannelId, user, socket,
-}) => {
+const Messages = ({ user, socket }) => {
+  const { currentChannelId } = useSelector((state) => state.channelsInfo);
+  const { messages } = useSelector((state) => state.messagesInfo);
   const { t } = useTranslation();
   // const { socket } = useSocket();
   const schema = yup.object().shape({
@@ -35,7 +35,7 @@ const Messages = ({
   // };
 
   const handleSubmitMsg = (text) => {
-    if (!socket.connected) {
+    if (socket.disconnected) {
       throw new Error('Socket is disconnected!');
     }
     socket.emit('newMessage',

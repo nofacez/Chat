@@ -4,17 +4,17 @@ import React from 'react';
 import './i18n.js';
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
-import { configureStore } from '@reduxjs/toolkit';
+// import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import App from './components/App.jsx';
 import { UserProvider } from './components/context/UserContext.jsx';
-// import store from './app/store.js';
+import getStore from './app/store.js';
 import '../assets/application.scss';
 import RollbarContext, { rollbar } from './components/context/RollbarContext.js';
 // import init from './init.js';
-import messagesReducer, { addMessage } from './slices/messagesSlice.js';
-import channelsReducer, { addChannel, removeChannel, renameChannel } from './slices/channelsSlice.js';
-import modalReducer from './slices/modalSlice.js';
+import { addMessage } from './slices/messagesSlice.js';
+import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice.js';
+// import modalReducer from './slices/modalSlice.js';
 // import { useDispatch } from 'react-redux';
 // import { addMessage } from './slices/messagesSlice.js';
 // import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice.js';
@@ -24,13 +24,15 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export default (socket) => {
-  const store = configureStore({
-    reducer: {
-      messagesInfo: messagesReducer,
-      channelsInfo: channelsReducer,
-      modal: modalReducer,
-    },
-  });
+  // const store = configureStore({
+  //   reducer: {
+  //     messagesInfo: messagesReducer,
+  //     channelsInfo: channelsReducer,
+  //     modal: modalReducer,
+  //   },
+  // });
+  const store = getStore();
+
   const Root = () => {
     // const dispatch = useDispatch();
     socket.on('newMessage', (message) => store.dispatch(addMessage(message)));
