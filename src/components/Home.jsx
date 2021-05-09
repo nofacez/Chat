@@ -37,13 +37,14 @@ const Home = () => {
       dispatch(setInitialState(response.data));
       setIsLoading(false);
     } catch (e) {
+      console.log(e);
       throw new Error(e);
     }
   };
 
   useEffect(() => {
     getInitialState();
-  }, [getInitialState]);
+  }, []);
 
   if (isLoading) {
     return <Spinner />;
