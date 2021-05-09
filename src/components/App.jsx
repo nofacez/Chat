@@ -18,7 +18,7 @@ import RenameChannelModal from './modals/RenameChannelModal.jsx';
 // import { addChannel, removeChannel, renameChannel } from '../slices/channelsSlice.js';
 // import { addMessage } from '../slices/messagesSlice.js';
 
-const App = ({ socket }) => {
+const App = () => {
   const { user } = useUser();
   // const dispatch = useDispatch();
   // socket.removeAllListeners();
@@ -32,10 +32,10 @@ const App = ({ socket }) => {
   return (
     <Router>
       <div className="h-100 d-flex flex-column">
-        <Navbar socket={socket} />
+        <Navbar />
         <Switch>
           <Route exact path="/">
-            { user ? <Home socket={socket} /> : <Redirect to="/login" /> }
+            { user ? <Home /> : <Redirect to="/login" /> }
           </Route>
           <Route path="/login">
             <Login />
@@ -48,9 +48,9 @@ const App = ({ socket }) => {
           </Route>
         </Switch>
       </div>
-      <AddChannelModal socket={socket} />
-      <RemoveChannelModal socket={socket} />
-      <RenameChannelModal socket={socket} />
+      <AddChannelModal />
+      <RemoveChannelModal />
+      <RenameChannelModal />
     </Router>
   );
 };

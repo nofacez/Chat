@@ -12,7 +12,7 @@ import Channels from './chat/Channels.jsx';
 import Messages from './chat/Messages.jsx';
 import { useUser } from './context/UserContext.jsx';
 
-const Home = ({ socket }) => {
+const Home = () => {
   const dispatch = useDispatch();
   const { localStorage } = window;
   const { token } = JSON.parse(localStorage.getItem('user'));
@@ -37,13 +37,14 @@ const Home = ({ socket }) => {
   }, []);
 
   return (
-    <div className="row pb-5 flex-grow-1 h-75 pb-3">
-      <Channels />
-      <Messages
-        user={user}
-        socket={socket}
-      />
-    </div>
+    <>
+      <div className="row pb-5 flex-grow-1 h-75 pb-3">
+        <Channels />
+        <Messages
+          user={user}
+        />
+      </div>
+    </>
   );
 };
 

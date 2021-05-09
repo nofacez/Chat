@@ -5,10 +5,12 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
 import { closeModal } from '../../slices/modalSlice.js';
-import { setCurrentChannel } from '../../slices/channelsSlice.js';
+// import { setCurrentChannel } from '../../slices/channelsSlice.js';
+import useSocket from '../context/useSocket.js';
 
-const AddChannelForm = ({ socket, t, dispatch }) => {
+const AddChannelForm = ({ t, dispatch }) => {
   const { channels } = useSelector((state) => state.channelsInfo);
+  const socket = useSocket();
   const channelsNames = channels.map(({ name }) => name);
   const schema = yup.object().shape({
     name: yup.string()
@@ -22,13 +24,6 @@ const AddChannelForm = ({ socket, t, dispatch }) => {
     dispatch(closeModal());
   };
 
-  const submitNewChannel = (name) => {
-    socket.emit('newChannel', name, ({ status, data }) => {
-      dispatch(setCurrentChannel(data));
-      console.log(status);
-    });
-  };
-
   return (
     <Formik
       validationSchema={schema}
@@ -37,7 +32,7 @@ const AddChannelForm = ({ socket, t, dispatch }) => {
         name: '',
       }}
       onSubmit={(values) => {
-        submitNewChannel(values);
+        socket.addChannel(values);
         dispatch(closeModal());
       }}
     >

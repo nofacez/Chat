@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalSlice.js';
 import RenameForm from '../forms/RenameForm.jsx';
 
-const RenameChannelModal = ({ socket }) => {
+const RenameChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const { open, currentModal } = useSelector((state) => state.modal);
   // const { socket } = useSocket();
 
@@ -31,7 +32,7 @@ const RenameChannelModal = ({ socket }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        { isOpened() && <RenameForm socket={socket} t={t} dispatch={dispatch} /> }
+        { isOpened() && <RenameForm t={t} dispatch={dispatch} /> }
       </Modal.Body>
     </Modal>
   );

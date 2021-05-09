@@ -3,10 +3,12 @@ import { Modal, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalSlice.js';
+import useSocket from '../context/useSocket.js';
 
-const RemoveChannelModal = ({ socket }) => {
+const RemoveChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const socket = useSocket();
   const { open, currentModal, extra } = useSelector((state) => state.modal);
   // const { socket } = useSocket();
 
@@ -14,9 +16,9 @@ const RemoveChannelModal = ({ socket }) => {
     dispatch(closeModal());
   };
 
-  const removeChannel = () => {
-    socket.emit('removeChannel', extra, (resp) => console.log(resp));
-  };
+  // const removeChannel = () => {
+  //   socket.emit('removeChannel', extra, (resp) => console.log(resp));
+  // };
 
   return (
     <Modal
@@ -37,7 +39,7 @@ const RemoveChannelModal = ({ socket }) => {
         <Button
           variant="danger"
           onClick={() => {
-            removeChannel();
+            socket.removeChannel(extra);
             dispatch(closeModal());
           }}
         >

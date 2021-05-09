@@ -5,10 +5,12 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import cn from 'classnames';
 import { closeModal } from '../../slices/modalSlice.js';
+import useSocket from '../context/useSocket.js';
 
-const RenameForm = ({ socket, t, dispatch }) => {
+const RenameForm = ({ t, dispatch }) => {
   const { channels } = useSelector((state) => state.channelsInfo);
   const { extra } = useSelector((state) => state.modal);
+  const socket = useSocket();
   const channelsNames = channels.map(({ name }) => name);
 
   const schema = yup.object().shape({
@@ -23,13 +25,13 @@ const RenameForm = ({ socket, t, dispatch }) => {
     dispatch(closeModal());
   };
 
-  const handleRenameChannel = ({ name }) => {
-    socket.emit('renameChannel', { id: extra.id, name }, ({ status }) => {
-      console.log(status);
-    });
-  };
+  // const handleRenameChannel = ({ name }) => {
+  //   socket.emit('renameChannel', { id: extra.id, name }, ({ status }) => {
+  //     console.log(status);
+  //   });
+  // };
 
-  const channel = channels.find((c) => c.id === extra.id);
+  const currentChannel = channels.find((c) => c.id === extra.id);
 
   return (
     <Formik
@@ -37,10 +39,11 @@ const RenameForm = ({ socket, t, dispatch }) => {
       validateOnChange={false}
       enableReinitialize
       initialValues={{
-        name: channel.name,
+        name: currentChannel.name,
       }}
       onSubmit={(values) => {
-        handleRenameChannel(values);
+        const channel = { id: extra.id, name: values.name };
+        socket.renameChannel(channel);
         dispatch(closeModal());
       }}
     >

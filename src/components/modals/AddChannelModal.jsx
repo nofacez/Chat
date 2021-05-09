@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { closeModal } from '../../slices/modalSlice.js';
 import AddChannelForm from '../forms/AddChannelForm.jsx';
 
-const AddChannel = ({ socket }) => {
+const AddChannel = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { open, currentModal } = useSelector((state) => state.modal);
@@ -28,7 +28,7 @@ const AddChannel = ({ socket }) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        { isOpened() && <AddChannelForm socket={socket} dispatch={dispatch} t={t} /> }
+        { isOpened() && <AddChannelForm dispatch={dispatch} t={t} /> }
       </Modal.Body>
     </Modal>
   );

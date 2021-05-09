@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable react/destructuring-assignment */
 // @ts-check
 import React from 'react';
@@ -14,6 +15,7 @@ import RollbarContext, { rollbar } from './components/context/RollbarContext.js'
 // import init from './init.js';
 import { addMessage } from './slices/messagesSlice.js';
 import { addChannel, removeChannel, renameChannel } from './slices/channelsSlice.js';
+import socketContext from './components/context/socketContext.js';
 // import modalReducer from './slices/modalSlice.js';
 // import { useDispatch } from 'react-redux';
 // import { addMessage } from './slices/messagesSlice.js';
@@ -24,35 +26,50 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export default (socket) => {
-  // const store = configureStore({
-  //   reducer: {
-  //     messagesInfo: messagesReducer,
-  //     channelsInfo: channelsReducer,
-  //     modal: modalReducer,
-  //   },
-  // });
   const store = getStore();
+  socket.on('newMessage', (message) => store.dispatch(addMessage(message)));
 
-  const Root = () => {
-    // const dispatch = useDispatch();
-    socket.on('newMessage', (message) => store.dispatch(addMessage(message)));
+  socket.on('newChannel', (channel) => store.dispatch(addChannel(channel)));
 
-    socket.on('newChannel', (channel) => store.dispatch(addChannel(channel)));
+  socket.on('removeChannel', (channel) => store.dispatch(removeChannel(channel)));
 
-    socket.on('removeChannel', (channel) => store.dispatch(removeChannel(channel)));
+  socket.on('renameChannel', (channel) => store.dispatch(renameChannel(channel)));
 
-    socket.on('renameChannel', (channel) => store.dispatch(renameChannel(channel)));
+  const SocketProvider = ({ children }) => {
+    const sendMessage = (message) => {
+      socket.emit('newMessage', message, () => {});
+    };
+
+    const addChannel = (channel) => {
+      socket.emit('newChannel', channel, () => {});
+    };
+
+    const removeChannel = (channel) => {
+      socket.emit('removeChannel', channel, () => {});
+    };
+
+    const renameChannel = (channel) => {
+      socket.emit('renameChannel', channel, () => {});
+    };
     return (
-      <RollbarContext.Provider value={rollbar}>
-        <UserProvider>
-          <App socket={socket} />
-        </UserProvider>
-      </RollbarContext.Provider>
+      <socketContext.Provider value={{
+        sendMessage, addChannel, removeChannel, renameChannel,
+      }}
+      >
+        {children}
+      </socketContext.Provider>
     );
   };
+
   return (
     <Provider store={store}>
-      <Root />
+      <RollbarContext.Provider value={rollbar}>
+        <SocketProvider>
+          <UserProvider>
+            <App />
+          </UserProvider>
+        </SocketProvider>
+      </RollbarContext.Provider>
     </Provider>
   );
 };
